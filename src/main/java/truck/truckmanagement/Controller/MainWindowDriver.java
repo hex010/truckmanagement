@@ -1,0 +1,81 @@
+package truck.truckmanagement.Controller;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import truck.truckmanagement.Enum.Destination_filters_enum;
+import truck.truckmanagement.HelloApplication;
+import truck.truckmanagement.Model.*;
+import truck.truckmanagement.Service.*;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.io.IOException;
+import java.util.*;
+
+import static truck.truckmanagement.Utils.FxUtils.alertMessage;
+
+public class MainWindowDriver {
+    @FXML
+    public ListView<Destination> listViewTrips;
+    private User loggedInUser;
+    private DestinationService destinationService;
+
+    public void setData(User user) {
+        this.loggedInUser = user;
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
+        this.destinationService = new DestinationService(entityManagerFactory);
+
+        fillFields();
+    }
+
+    private void fillFields() {
+        fillTripsList();
+    }
+
+    private void fillTripsList() {
+        List<Destination> destinations = destinationService.getAllDestinationsByDriverId(loggedInUser.getId(), Destination_filters_enum.NONE, "");
+        for (Destination destination: destinations){
+            if(destination.getEndDate() == null){
+                listViewTrips.getItems().add(destination);
+                break;
+            }
+        }
+    }
+
+    private boolean checkIfTripIsSelected() {
+        return listViewTrips.getSelectionModel().getSelectedItems().isEmpty();
+    }
+
+    private void callTripViewPage() {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Trip-view.fxml"));
+        try {
+            Parent parent = fxmlLoader.load();
+            TripWindow tripWindow = fxmlLoader.getController();
+            tripWindow.setData(listViewTrips.getSelectionModel().getSelectedItem(), loggedInUser);
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.initOwner(listViewTrips.getScene().getWindow());
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setTitle("Reiso valdymas");
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void viewTrip() {
+        if(checkIfTripIsSelected()) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas reisas", "Prašome pasirinkti reisą iš sąrašo.");
+            return;
+        }
+        callTripViewPage();
+        fillTripsList();
+    }
+}

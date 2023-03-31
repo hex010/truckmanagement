@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="478.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.TripWindow">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Paskirties vieta">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="countryField" layoutX="14.0" layoutY="49.0" text="Šalis:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="cityField" layoutX="14.0" layoutY="69.0" text="Miestas:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="addressField" layoutX="14.0" layoutY="89.0" text="Adresas:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="addInfoField" layoutX="14.0" layoutY="109.0" text="Pap. info:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="150.0" text="Krovinio informacija">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="freightTitleField" layoutX="14.0" layoutY="177.0" text="Pavadinimas:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="freightDescField" layoutX="14.0" layoutY="197.0" text="Aprašymas:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="freightQuantityField" layoutX="14.0" layoutY="217.0" text="Kiekis:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="freightWeight" layoutX="14.0" layoutY="237.0" text="Svoris:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="277.0" text="Sunkvežimio informacija">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="modelField" layoutX="14.0" layoutY="304.0" text="Modelis:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="fuelTypeField" layoutX="14.0" layoutY="324.0" text="Kuro tipas:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="transmissionTypeField" layoutX="15.0" layoutY="344.0" text="Pavarų dėžė:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="mileageField" layoutX="15.0" layoutY="364.0" text="Kilometražas:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="colorField" layoutX="15.0" layoutY="384.0" text="Spalva:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

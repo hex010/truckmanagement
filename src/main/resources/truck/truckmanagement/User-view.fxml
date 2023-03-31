@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="351.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.UserWindow">
+   <children>
+      <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prisijungimo vardas" />
+      <TextField fx:id="loginField" layoutX="14.0" layoutY="84.0" />
+      <Label fx:id="headerText" layoutX="122.0" layoutY="14.0" text="Vartotojo peržiūra">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Text layoutX="14.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Slaptažodis" />
+      <TextField fx:id="passwordField" layoutX="14.0" layoutY="142.0" />
+      <Text layoutX="14.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Paštas" />
+      <TextField fx:id="emailField" layoutX="14.0" layoutY="202.0" />
+      <Text layoutX="216.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefono numeris" />
+      <TextField fx:id="phoneField" layoutX="216.0" layoutY="202.0" prefHeight="26.0" prefWidth="169.0" />
+      <Text layoutX="219.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas" />
+      <TextField fx:id="firstnameField" layoutX="216.0" layoutY="84.0" prefHeight="26.0" prefWidth="169.0" />
+      <Text layoutX="216.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pavardė" />
+      <TextField fx:id="lastnameField" layoutX="216.0" layoutY="142.0" prefHeight="26.0" prefWidth="169.0" />
+      <Text layoutX="14.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gimimo data" />
+      <DatePicker fx:id="dateField" layoutX="15.0" layoutY="258.0" prefHeight="26.0" prefWidth="150.0" />
+      <Button fx:id="saveButton" layoutX="258.0" layoutY="305.0" mnemonicParsing="false" onAction="#confirmUserEdit" prefHeight="31.0" prefWidth="126.0" text="Išsaugoti duomenis" />
+      <ComboBox fx:id="roleComboBox" layoutX="216.0" layoutY="258.0" prefHeight="26.0" prefWidth="169.0" />
+      <Text layoutX="216.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Privilegija" />
+   </children>
+</AnchorPane>

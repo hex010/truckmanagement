@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="670.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.MainWindowManager">
+  <tabs>
+    <Tab text="Reisai">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="670.0">
+               <children>
+                  <ListView fx:id="listViewTrips" layoutX="14.0" layoutY="47.0" prefHeight="258.0" prefWidth="524.0" />
+                  <Text layoutX="203.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priskirti reisai">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="567.0" layoutY="47.0" mnemonicParsing="false" onAction="#viewTrip" prefHeight="34.0" prefWidth="77.0" text="Peržiūrėti" />
+                  <Button layoutX="567.0" layoutY="91.0" mnemonicParsing="false" onAction="#editTrip" prefHeight="30.0" prefWidth="78.0" text="Redaguoti" />
+                  <Button layoutX="567.0" layoutY="132.0" mnemonicParsing="false" onAction="#createTrip" prefHeight="30.0" prefWidth="77.0" text="Sukurti" />
+                  <Button fx:id="deleteTripButtonId" layoutX="567.0" layoutY="172.0" mnemonicParsing="false" onAction="#deleteTrip" prefHeight="30.0" prefWidth="77.0" text="Ištrinti" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Sunkvežimų valdymas">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="327.0" prefWidth="670.0">
+               <children>
+                  <TableView fx:id="truckTableView" layoutX="17.0" layoutY="14.0" prefHeight="243.0" prefWidth="641.0">
+                    <columns>
+                        <TableColumn fx:id="columnTruckId" prefWidth="25.600034713745117" text="Id" />
+                      <TableColumn fx:id="columnTruckModel" prefWidth="68.80001831054688" text="Modelis" />
+                      <TableColumn fx:id="columnTruckMaxSpeed" prefWidth="74.40003204345703" text="Didž. greitis" />
+                        <TableColumn fx:id="columnTruckMileage" prefWidth="54.39996337890625" text="Rida" />
+                        <TableColumn fx:id="columnTruckManufacturedDate" prefWidth="112.0" text="Pagaminimo data" />
+                        <TableColumn fx:id="columnTruckColor" prefWidth="72.79998779296875" text="Spalva" />
+                        <TableColumn fx:id="columnTruckFuelType" prefWidth="70.39996337890625" text="Kuro tipas" />
+                        <TableColumn fx:id="columnTruckTransimissionType" prefWidth="80.79995727539062" text="Pavarų dėžė" />
+                        <TableColumn fx:id="columnTruckDelete" prefWidth="75.0" text="Ištrinti" />
+                    </columns>
+                  </TableView>
+                  <TextField fx:id="truckModelField" layoutX="17.0" layoutY="269.0" prefHeight="26.0" prefWidth="70.0" promptText="modelis" />
+                  <TextField fx:id="truckMaxSpeedField" layoutX="93.0" layoutY="269.0" prefHeight="26.0" prefWidth="75.0" promptText="didž. greitis" />
+                  <TextField fx:id="truckMileageField" layoutX="173.0" layoutY="269.0" prefHeight="26.0" prefWidth="69.0" promptText="rida" />
+                  <DatePicker fx:id="truckManufacturedDatePicker" layoutX="247.0" layoutY="269.0" prefHeight="26.0" prefWidth="102.0" promptText="2022-10-17" />
+                  <TextField fx:id="truckFuelTypeField" layoutX="436.0" layoutY="269.0" prefHeight="26.0" prefWidth="74.0" promptText="kuro tipas" />
+                  <TextField fx:id="truckTransmissionTypeField" layoutX="514.0" layoutY="269.0" prefHeight="26.0" prefWidth="81.0" promptText="pavarų dėžė" />
+                  <Button layoutX="598.0" layoutY="266.0" mnemonicParsing="false" onAction="#addTruckButton" prefHeight="32.0" prefWidth="64.0" text="Pridėti" />
+                  <TextField fx:id="colorField" layoutX="355.0" layoutY="269.0" prefHeight="26.0" prefWidth="75.0" promptText="Spalva" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Krovinių valdymas">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="79.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Krovinių sąrašas">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Text>
+                  <ListView fx:id="freightList" layoutX="61.0" layoutY="58.0" prefHeight="279.0" prefWidth="196.0" />
+                  <Button layoutX="285.0" layoutY="58.0" mnemonicParsing="false" onAction="#showFreight" prefHeight="34.0" prefWidth="82.0" text="Peržiūrėti" />
+                  <Button layoutX="285.0" layoutY="109.0" mnemonicParsing="false" onAction="#editFreight" prefHeight="32.0" prefWidth="83.0" text="Redaguoti" />
+                  <Button layoutX="285.0" layoutY="159.0" mnemonicParsing="false" onAction="#addFreight" prefHeight="30.0" prefWidth="84.0" text="Pridėti" />
+                  <Button layoutX="285.0" layoutY="206.0" mnemonicParsing="false" onAction="#deleteFreight" prefHeight="31.0" prefWidth="85.0" text="Trinti" />
+               </children></AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Maršrutų valdymas">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ListView fx:id="listViewCheckpoint" layoutX="14.0" layoutY="43.0" prefHeight="258.0" prefWidth="214.0" />
+                  <Text layoutX="71.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maršrutai">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="242.0" layoutY="43.0" mnemonicParsing="false" onAction="#showCheckpoint" prefHeight="30.0" prefWidth="78.0" text="Peržiūrėti" />
+                  <Button layoutX="242.0" layoutY="85.0" mnemonicParsing="false" onAction="#editCheckpoint" prefHeight="30.0" prefWidth="78.0" text="Redaguoti" />
+                  <Button layoutX="242.0" layoutY="125.0" mnemonicParsing="false" onAction="#createCheckpoint" prefHeight="28.0" prefWidth="78.0" text="Sukurti" />
+                  <Button layoutX="242.0" layoutY="160.0" mnemonicParsing="false" onAction="#deleteCheckpoint" prefHeight="30.0" prefWidth="76.0" text="Ištrinti" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab text="Vartotojų valdymas">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="600.0">
+               <children>
+                  <ListView fx:id="userList" layoutX="51.0" layoutY="55.0" prefHeight="282.0" prefWidth="199.0" />
+                  <Button layoutX="272.0" layoutY="55.0" mnemonicParsing="false" onAction="#showUser" prefHeight="32.0" prefWidth="92.0" text="Peržiūrėti" />
+                  <Button layoutX="271.0" layoutY="110.0" mnemonicParsing="false" onAction="#editUser" prefHeight="32.0" prefWidth="96.0" text="Redaguoti" />
+                  <Button layoutX="271.0" layoutY="169.0" mnemonicParsing="false" onAction="#addUser" prefHeight="33.0" prefWidth="95.0" text="Pridėti" />
+                  <Button fx:id="deleteUserButtonId" layoutX="270.0" layoutY="224.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="30.0" prefWidth="96.0" text="Ištrinti" />
+                  <Text layoutX="93.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vairuotojai">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+               </children></AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

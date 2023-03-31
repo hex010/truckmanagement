@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="330.0" prefWidth="818.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.DestinationWindow">
+   <children>
+      <ComboBox fx:id="driverComboBox" layoutX="15.0" layoutY="184.0" prefHeight="26.0" prefWidth="550.0" />
+      <Label fx:id="headerText" layoutX="208.0" layoutY="10.0" text="Reiso peržiūra">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Text layoutX="15.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vairuotojas" />
+      <ComboBox fx:id="managerComboBox" layoutX="15.0" layoutY="235.0" prefHeight="26.0" prefWidth="550.0" />
+      <Text layoutX="15.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vadybininkas" />
+      <ComboBox fx:id="transportComboBox" layoutX="14.0" layoutY="72.0" prefHeight="26.0" prefWidth="162.0" />
+      <Text layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transportas" />
+      <ComboBox fx:id="freightComboBox" layoutX="14.0" layoutY="127.0" prefHeight="26.0" prefWidth="550.0" />
+      <Text layoutX="14.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Krovinys" />
+      <ComboBox fx:id="locationComboBox" layoutX="223.0" layoutY="72.0" prefHeight="26.0" prefWidth="343.0" />
+      <Text layoutX="223.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maršrutas" />
+      <Button fx:id="saveButton" layoutX="19.0" layoutY="277.0" mnemonicParsing="false" onAction="#buttonSave" prefHeight="38.0" prefWidth="79.0" text="Išsaugoti" />
+   </children>
+</AnchorPane>
