@@ -1,7 +1,6 @@
 package truck.truckmanagement.Tests;
 
 import javafx.application.Platform;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.junit.Before;
@@ -35,11 +34,8 @@ public class ForumWindowTest {
     @Test
     public void shouldReturnTrueIfOneOfTheFieldsIsEmpty() throws InterruptedException {
         //given
-        Platform.runLater(() -> {
-            forumWindow.topicDescriptionTextArea = new TextArea("sometext");
-            forumWindow.topicHeaderTextField = new TextField("");
-        });
-        Thread.sleep(500); // palaukia, kad runLater suveiktu
+        forumWindow.topicDescriptionTextArea = new TextArea("sometext");
+        forumWindow.topicHeaderTextField = new TextField("");
 
         //when
         boolean result = forumWindow.topicHeaderTextField.getText().isEmpty() || forumWindow.topicDescriptionTextArea.getText().isEmpty();
@@ -51,11 +47,8 @@ public class ForumWindowTest {
     @Test
     public void shouldReturnFalseIfBothFieldsAreNotEmpty() throws InterruptedException {
         //given
-        Platform.runLater(() -> {
-            forumWindow.topicDescriptionTextArea = new TextArea("sometext");
-            forumWindow.topicHeaderTextField = new TextField("asdfa");
-        });
-        Thread.sleep(500); // palaukia, kad runLater suveiktu
+        forumWindow.topicDescriptionTextArea = new TextArea("sometext");
+        forumWindow.topicHeaderTextField = new TextField("some");
 
         //when
         boolean result = forumWindow.topicHeaderTextField.getText().isEmpty() || forumWindow.topicDescriptionTextArea.getText().isEmpty();
@@ -67,11 +60,8 @@ public class ForumWindowTest {
     @Test
     public void shouldCreateNewForumObjectFromFields() throws InterruptedException {
         //given
-        Platform.runLater(() -> {
-            forumWindow.topicDescriptionTextArea = new TextArea("sometext");
-            forumWindow.topicHeaderTextField = new TextField("asdfa");
-        });
-        Thread.sleep(500); // palaukia, kad runLater suveiktu
+        forumWindow.topicDescriptionTextArea = new TextArea("sometext");
+        forumWindow.topicHeaderTextField = new TextField("asdfa");
 
         //when
         Forum someForumTopic = new Forum(forumWindow.topicHeaderTextField.getText(),forumWindow.topicDescriptionTextArea.getText(), null);
@@ -84,15 +74,13 @@ public class ForumWindowTest {
     @Test
     public void shouldForumTopicBeAssociatedWithCurrentUser() throws InterruptedException {
         //given
-        Platform.runLater(() -> {
-            forumWindow.topicDescriptionTextArea = new TextArea("sometext");
-            forumWindow.topicHeaderTextField = new TextField("asdfa");
-        });
-        Thread.sleep(500); // palaukia, kad runLater suveiktu
+        forumWindow.topicDescriptionTextArea = new TextArea("sometext");
+        forumWindow.topicHeaderTextField = new TextField("asdfa");
 
         //when
         Forum someForumTopic = new Forum(forumWindow.topicHeaderTextField.getText(),forumWindow.topicDescriptionTextArea.getText(), currentUser);
 
+        //then
         assertEquals(someForumTopic.getUser(), currentUser);
     }
 }

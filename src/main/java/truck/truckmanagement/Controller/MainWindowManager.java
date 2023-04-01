@@ -86,6 +86,7 @@ public class MainWindowManager {
     private TransportService transportService;
     private DestinationPointService destinationPointService;
     private DestinationService destinationService;
+    private ForumService forumService;
 
     public void setData(User user) {
         this.loggedInUser = user;
@@ -96,6 +97,7 @@ public class MainWindowManager {
         transportService = new TransportService(entityManagerFactory);
         destinationPointService = new DestinationPointService(entityManagerFactory);
         destinationService = new DestinationService(entityManagerFactory);
+        forumService = new ForumService(entityManagerFactory);
 
         setTransprotTableParameters();
 
@@ -103,6 +105,7 @@ public class MainWindowManager {
         fillFreightList();
         fillcheckpointList();
         fillTripList();
+        fillForumList();
 
         deleteTripButtonId.setVisible(false);
         deleteUserButtonId.setVisible(false);
@@ -546,11 +549,19 @@ public class MainWindowManager {
     }
 
     @FXML
-    public void readForumTopic(ActionEvent actionEvent) {
+    public void readForumTopic() {
     }
 
     @FXML
-    public void createForumTopic(ActionEvent actionEvent) {
+    public void createForumTopic() {
         callForumTopicViewPage(CRUD_enum.CREATE);
+
+        listViewForum.getItems().clear();
+        fillForumList();
+    }
+
+    private void fillForumList() {
+        List<Forum> forums = forumService.getAllForums();
+        forums.forEach(f->listViewForum.getItems().add(f));
     }
 }

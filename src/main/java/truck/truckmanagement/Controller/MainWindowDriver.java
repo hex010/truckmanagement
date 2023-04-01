@@ -28,18 +28,21 @@ public class MainWindowDriver {
     public ListView<Forum> listViewForum;
     private User loggedInUser;
     private DestinationService destinationService;
+    private ForumService forumService;
 
     public void setData(User user) {
         this.loggedInUser = user;
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
         this.destinationService = new DestinationService(entityManagerFactory);
+        this.forumService = new ForumService(entityManagerFactory);
 
         fillFields();
     }
 
     private void fillFields() {
         fillTripsList();
+        fillForumList();
     }
 
     private void fillTripsList() {
@@ -102,11 +105,19 @@ public class MainWindowDriver {
     }
 
     @FXML
-    public void readForumTopic(ActionEvent actionEvent) {
+    public void readForumTopic() {
     }
 
     @FXML
-    public void createForumTopic(ActionEvent actionEvent) {
+    public void createForumTopic() {
         callForumTopicViewPage(CRUD_enum.CREATE);
+
+        listViewForum.getItems().clear();
+        fillForumList();
+    }
+
+    private void fillForumList() {
+        List<Forum> forums = forumService.getAllForums();
+        forums.forEach(f->listViewForum.getItems().add(f));
     }
 }
