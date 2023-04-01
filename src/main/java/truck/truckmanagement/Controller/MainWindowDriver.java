@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import truck.truckmanagement.Enum.CRUD_enum;
 import truck.truckmanagement.Enum.Destination_filters_enum;
 import truck.truckmanagement.HelloApplication;
 import truck.truckmanagement.Model.*;
@@ -24,7 +25,7 @@ public class MainWindowDriver {
     @FXML
     public ListView<Destination> listViewTrips;
     @FXML
-    public ListView listViewForum;
+    public ListView<Forum> listViewForum;
     private User loggedInUser;
     private DestinationService destinationService;
 
@@ -82,11 +83,30 @@ public class MainWindowDriver {
         fillTripsList();
     }
 
+    private void callForumTopicViewPage(CRUD_enum selectedAction) {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Forum-view.fxml"));
+        try {
+            Parent parent = fxmlLoader.load();
+            ForumWindow forumWindow = fxmlLoader.getController();
+            forumWindow.setData(listViewForum.getSelectionModel().getSelectedItem(), selectedAction, loggedInUser);
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.initOwner(listViewForum.getScene().getWindow());
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setTitle("Forumo valdymas");
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void readForumTopic(ActionEvent actionEvent) {
     }
 
     @FXML
     public void createForumTopic(ActionEvent actionEvent) {
+        callForumTopicViewPage(CRUD_enum.CREATE);
     }
 }

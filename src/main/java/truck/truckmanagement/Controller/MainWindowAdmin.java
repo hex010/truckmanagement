@@ -72,7 +72,7 @@ public class MainWindowAdmin {
     @FXML
     public ListView<User> userList;
     @FXML
-    public ListView listViewForum;
+    public ListView<Forum> listViewForum;
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -505,11 +505,30 @@ public class MainWindowAdmin {
         }
     }
 
+    private void callForumTopicViewPage(CRUD_enum selectedAction) {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Forum-view.fxml"));
+        try {
+            Parent parent = fxmlLoader.load();
+            ForumWindow forumWindow = fxmlLoader.getController();
+            forumWindow.setData(listViewForum.getSelectionModel().getSelectedItem(), selectedAction, loggedInUser);
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.initOwner(listViewForum.getScene().getWindow());
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setTitle("Forumo valdymas");
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void readForumTopic(ActionEvent actionEvent) {
     }
 
     @FXML
     public void createForumTopic(ActionEvent actionEvent) {
+        callForumTopicViewPage(CRUD_enum.CREATE);
     }
 }

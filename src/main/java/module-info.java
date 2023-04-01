@@ -7,6 +7,8 @@ module truck.truckmanagement {
     requires java.sql;
     requires org.hibernate.orm.core;
     requires java.naming;
+    requires junit;
+    requires org.mockito;
 
     opens truck.truckmanagement to javafx.fxml;
     exports truck.truckmanagement;
