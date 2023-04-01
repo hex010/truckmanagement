@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane fx:id="scrollPane" prefHeight="414.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.ForumWindow">
+   <content>
+      <AnchorPane prefHeight="930.0" prefWidth="618.0">
+         <children>
+            <TextField fx:id="topicHeaderTextField" alignment="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="38.0" prefWidth="590.0" promptText="Antraštė">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </TextField>
+            <TextArea fx:id="topicDescriptionTextArea" layoutX="14.0" layoutY="75.0" prefHeight="274.0" prefWidth="591.0" promptText="Turinys" />
+            <Button fx:id="saveButton" layoutX="545.0" layoutY="361.0" mnemonicParsing="false" onAction="#buttonSave" prefHeight="15.0" prefWidth="60.0" text="Išsaugoti">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Label fx:id="topicAuthorLabel" layoutX="14.0" layoutY="49.0" text="Temos autorius" />
+            <Text fx:id="labelComments" layoutX="266.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Komentarai">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>
