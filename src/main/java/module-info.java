@@ -8,7 +8,6 @@ module truck.truckmanagement {
     requires org.hibernate.orm.core;
     requires java.naming;
     requires junit;
-    requires org.mockito;
 
     opens truck.truckmanagement to javafx.fxml;
     exports truck.truckmanagement;
@@ -19,4 +18,6 @@ module truck.truckmanagement {
     opens truck.truckmanagement.Model to org.hibernate.orm.core;
 
     opens truck.truckmanagement.TableParameters to javafx.base;
+    exports truck.truckmanagement.Tests;
+
 }
