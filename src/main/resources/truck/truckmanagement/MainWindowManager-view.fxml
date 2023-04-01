@@ -111,5 +111,21 @@
                </children></AnchorPane>
          </content>
       </Tab>
+      <Tab text="Forumas">
+          <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                      <ListView fx:id="listViewForum" layoutX="14.0" layoutY="34.0" prefHeight="274.0" prefWidth="350.0" />
+                      <Text layoutX="112.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forumo temos">
+                          <font>
+                              <Font size="24.0" />
+                          </font>
+                      </Text>
+                      <Button layoutX="383.0" layoutY="34.0" mnemonicParsing="false" onAction="#readForumTopic" prefHeight="32.0" prefWidth="71.0" text="Peržiūrėti" />
+                      <Button layoutX="383.0" layoutY="75.0" mnemonicParsing="false" onAction="#createForumTopic" prefHeight="32.0" prefWidth="71.0" text="Sukurti" />
+                  </children>
+              </AnchorPane>
+          </content>
+      </Tab>
   </tabs>
 </TabPane>

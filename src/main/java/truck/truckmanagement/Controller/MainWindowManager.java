@@ -76,6 +76,8 @@ public class MainWindowManager {
     public Button deleteUserButtonId;
     @FXML
     public Button deleteTripButtonId;
+    @FXML
+    public ListView listViewForum;
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -523,5 +525,13 @@ public class MainWindowManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void readForumTopic(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void createForumTopic(ActionEvent actionEvent) {
     }
 }

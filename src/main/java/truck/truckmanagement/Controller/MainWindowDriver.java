@@ -1,5 +1,6 @@
 package truck.truckmanagement.Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,8 @@ import static truck.truckmanagement.Utils.FxUtils.alertMessage;
 public class MainWindowDriver {
     @FXML
     public ListView<Destination> listViewTrips;
+    @FXML
+    public ListView listViewForum;
     private User loggedInUser;
     private DestinationService destinationService;
 
@@ -77,5 +80,13 @@ public class MainWindowDriver {
         }
         callTripViewPage();
         fillTripsList();
+    }
+
+    @FXML
+    public void readForumTopic(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void createForumTopic(ActionEvent actionEvent) {
     }
 }

@@ -71,6 +71,8 @@ public class MainWindowAdmin {
     public ListView<DestinationPoint> listViewCheckpoint;
     @FXML
     public ListView<User> userList;
+    @FXML
+    public ListView listViewForum;
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -501,5 +503,13 @@ public class MainWindowAdmin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void readForumTopic(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void createForumTopic(ActionEvent actionEvent) {
     }
 }
