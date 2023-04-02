@@ -3,6 +3,8 @@ package truck.truckmanagement.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import truck.truckmanagement.Enum.CRUD_enum;
@@ -28,6 +30,24 @@ public class ForumWindow {
     public Button saveButton;
     @FXML
     public ScrollPane scrollPane;
+    @FXML
+    public TreeView commentsTreeView;
+    @FXML
+    public AnchorPane anchorPaneComments;
+    @FXML
+    public Label commentByLabel;
+    @FXML
+    public TextArea commentTextByLabel;
+    @FXML
+    public Text commentReplyLabel;
+    @FXML
+    public TextArea myReplieToCommentTextArea;
+    @FXML
+    public Button applyReplyButton;
+    @FXML
+    public Button editCommentButton;
+    @FXML
+    public Button deleteMyCommentButton;
 
     private Forum selectedForumTopic;
     private CRUD_enum selectedAction;
@@ -46,9 +66,18 @@ public class ForumWindow {
     }
 
     private void fillFields() {
+        editCommentButton.setVisible(false);
+        deleteMyCommentButton.setVisible(false);
         if(selectedAction == CRUD_enum.CREATE) {
             topicAuthorLabel.setText("Temos autorius: " + loggedInUser);
+            commentByLabel.setVisible(false);
+            commentReplyLabel.setVisible(false);
+            applyReplyButton.setVisible(false);
+            commentTextByLabel.setVisible(false);
+            myReplieToCommentTextArea.setVisible(false);
+            commentsTreeView.setVisible(false);
             labelComments.setVisible(false);
+            anchorPaneComments.setVisible(false);
             scrollPane.setPrefHeight(398);
         } else if(selectedAction == CRUD_enum.VIEW){
             topicAuthorLabel.setText("Temos autorius: "+ selectedForumTopic.getUser());
@@ -83,5 +112,18 @@ public class ForumWindow {
         if(selectedAction == CRUD_enum.CREATE){
             selectedForumTopic = new Forum(topicHeaderTextField.getText(), topicDescriptionTextArea.getText(), loggedInUser);
         }
+    }
+
+    @FXML
+    public void showFullCommentWithReplyOptionOnMouseClick() {
+    }
+    @FXML
+    public void applyReply() {
+    }
+    @FXML
+    public void editMyComment() {
+    }
+    @FXML
+    public void deleteMyComment() {
     }
 }

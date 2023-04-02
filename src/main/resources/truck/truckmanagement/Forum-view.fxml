@@ -9,6 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.TreeView?>
 <ScrollPane fx:id="scrollPane" prefHeight="414.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.ForumWindow">
    <content>
       <AnchorPane prefHeight="930.0" prefWidth="618.0">
@@ -25,11 +26,23 @@
                </font>
             </Button>
             <Label fx:id="topicAuthorLabel" layoutX="14.0" layoutY="49.0" text="Temos autorius" />
+            <TreeView fx:id="commentsTreeView" layoutX="14.0" layoutY="409.0" onMouseClicked="#showFullCommentWithReplyOptionOnMouseClick" prefHeight="509.0" prefWidth="262.0" />
             <Text fx:id="labelComments" layoutX="266.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Komentarai">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
+            <AnchorPane fx:id="anchorPaneComments" layoutX="309.0" layoutY="410.0" prefHeight="508.0" prefWidth="296.0" style="-fx-background-color: white; -fx-border-color: grey;">
+               <children>
+                  <Label fx:id="commentByLabel" layoutX="14.0" layoutY="14.0" text="Komenatas nuo" />
+                  <TextArea fx:id="commentTextByLabel" editable="false" layoutX="14.0" layoutY="32.0" prefHeight="195.0" prefWidth="269.0" />
+                  <Text fx:id="commentReplyLabel" layoutX="14.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Atsakyti į komentarą:" />
+                  <TextArea fx:id="myReplieToCommentTextArea" layoutX="13.0" layoutY="265.0" prefHeight="195.0" prefWidth="269.0" />
+                  <Button fx:id="applyReplyButton" layoutX="14.0" layoutY="468.0" mnemonicParsing="false" onAction="#applyReply" text="Pateikti atsakymą" />
+                  <Button fx:id="editCommentButton" layoutX="211.0" layoutY="233.0" mnemonicParsing="false" onAction="#editMyComment" text="Redaguoti" />
+                  <Button fx:id="deleteMyCommentButton" layoutX="160.0" layoutY="233.0" mnemonicParsing="false" onAction="#deleteMyComment" text="Trinti" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </content>
