@@ -30,6 +30,7 @@ public class ForumWindowTest {
     public void setUp() {
         forumWindow = new ForumWindow();
         currentUser = new User(Role_enum.VAIRUOTOJAS, "Adsf", "sdag", "aersdf", "fgadf", "fagdfh", 864826498, LocalDate.now());
+        currentUser.setId(8);
     }
 
     @Test
@@ -119,5 +120,24 @@ public class ForumWindowTest {
         TreeItem<Comment> treeItem = new TreeItem<>(comment);
         parent.getChildren().add(treeItem);
         if(comment.getReplies() != null) comment.getReplies().forEach(r -> addTreeItem(r, treeItem));
+    }
+
+    @Test
+    public void replyCommentTextAreaShouldBeEditibleIfCommentIsMine(){
+        //given
+        forumWindow.commentTextByLabel = new TextArea();
+        User userThatWroteComment = new User(Role_enum.VAIRUOTOJAS, "random456", "cxbxcb", "qewrq", "werw", "gdfg", 868826498, LocalDate.now());
+        userThatWroteComment.setId(8);
+        Comment comment = new Comment("some comment text", null, null, userThatWroteComment);
+
+        //when
+        if(comment.getUser().getId() != currentUser.getId()){
+            forumWindow.commentTextByLabel.setEditable(false);
+        }else{
+            forumWindow.commentTextByLabel.setEditable(true);
+        }
+
+        //then
+        assertTrue(forumWindow.commentTextByLabel.isEditable());
     }
 }

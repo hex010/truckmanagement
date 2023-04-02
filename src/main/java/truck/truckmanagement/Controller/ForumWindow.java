@@ -2,6 +2,7 @@ package truck.truckmanagement.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -36,7 +37,7 @@ public class ForumWindow {
     @FXML
     public ScrollPane scrollPane;
     @FXML
-    public TreeView commentsTreeView;
+    public TreeView<Comment> commentsTreeView;
     @FXML
     public AnchorPane anchorPaneComments;
     @FXML
@@ -149,12 +150,34 @@ public class ForumWindow {
     }
 
     @FXML
-    public void showFullCommentWithReplyOptionOnMouseClick() {
+    public void showFullCommentWithReplyOptionOnMouseClick(MouseEvent mouseEvent) {
+        Node node = mouseEvent.getPickResult().getIntersectedNode();
+        if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
+            selectedTreeItem = commentsTreeView.getSelectionModel().getSelectedItem();
+            selectedComment = (Comment) selectedTreeItem.getValue();
+
+            commentByLabel.setVisible(true);
+            commentByLabel.setText("Komentaras nuo " +selectedComment.getUser());
+            commentTextByLabel.setText(selectedComment.getCommentText());
+            commentReplyLabel.setText("Atsakyti į komentarą:");
+            applyReplyButton.setText("Pateikti atsakymą");
+
+            if(selectedComment.getUser().getId() != loggedInUser.getId()){
+                commentTextByLabel.setEditable(false);
+            }else{
+                commentTextByLabel.setEditable(true);
+            }
+        }else{
+            selectedTreeItem = null;
+            selectedComment = null;
+            commentsTreeView.getSelectionModel().clearSelection();
+            newCommentUI();
+        }
     }
     @FXML
     public void applyReply() {
         if (myReplieToCommentTextArea.getText().isEmpty()) {
-            FxUtils.alertMessage(Alert.AlertType.ERROR, "Klaida", "Neužpildytas komentaras", "Užildyti jūsų komentarą, jis negali būti tuščias.");
+            FxUtils.alertMessage(Alert.AlertType.ERROR, "Klaida", "Neužpildytas komentaras", "Užpildyti jūsų komentarą, jis negali būti tuščias.");
             return;
         }
         if (selectedTreeItem == null || selectedComment == null) {
