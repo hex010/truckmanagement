@@ -11,10 +11,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import truck.truckmanagement.HelloApplication;
 import truck.truckmanagement.Model.Destination;
+import truck.truckmanagement.Model.TruckStop;
 import truck.truckmanagement.Model.User;
 import truck.truckmanagement.Service.TruckStopService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
+import java.util.List;
 
 import static truck.truckmanagement.Utils.FxUtils.alertMessage;
 
@@ -49,6 +53,7 @@ public class TripWindow {
     private User loggedInUser;
     private Destination selectedDestination;
     private TruckStopService truckStopService;
+    private EntityManagerFactory entityManagerFactory;
 
     public void setData(Destination selectedItem, User loggedInUser) {
         this.loggedInUser = loggedInUser;
