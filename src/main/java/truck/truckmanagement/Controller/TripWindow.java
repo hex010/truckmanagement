@@ -1,6 +1,7 @@
 package truck.truckmanagement.Controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import truck.truckmanagement.Model.Destination;
 import truck.truckmanagement.Model.User;
@@ -32,6 +33,8 @@ public class TripWindow {
     public Label mileageField;
     @FXML
     public Label colorField;
+    @FXML
+    public Button finishTripButtonId;
     private User loggedInUser;
     private Destination selectedDestination;
     public void setData(Destination selectedItem, User loggedInUser) {
@@ -58,4 +61,7 @@ public class TripWindow {
         mileageField.setText(mileageField.getText() + " " + selectedDestination.getTransport().getMileage());
         colorField.setText(colorField.getText() + " " + selectedDestination.getTransport().getColor());
     }
+
+    @FXML
+    public void finishTrip() {}
 }
