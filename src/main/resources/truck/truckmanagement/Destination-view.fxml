@@ -16,6 +16,12 @@
             <Font size="26.0" />
          </font>
       </Label>
+      <ListView fx:id="truckStopsListView" layoutX="594.0" layoutY="65.0" prefHeight="254.0" prefWidth="200.0" />
+      <Label fx:id="truckStopsText" layoutX="594.0" layoutY="29.0" text="Sustojimai">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
       <Text layoutX="15.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vairuotojas" />
       <ComboBox fx:id="managerComboBox" layoutX="15.0" layoutY="235.0" prefHeight="26.0" prefWidth="550.0" />
       <Text layoutX="15.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vadybininkas" />

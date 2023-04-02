@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="361.0" prefWidth="567.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.TruckStopWindow">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Sustojimo šalis" />
+      <TextField fx:id="countryTextField" layoutX="14.0" layoutY="38.0" />
+      <Label layoutX="14.0" layoutY="78.0" text="Sustojimo miestas" />
+      <TextField fx:id="CityTextField" layoutX="14.0" layoutY="102.0" />
+      <Label layoutX="14.0" layoutY="142.0" text="Sustojimo adresas" />
+      <TextField fx:id="addressFTextField" layoutX="14.0" layoutY="166.0" />
+      <DatePicker fx:id="startDate" layoutX="14.0" layoutY="228.0" />
+      <Label layoutX="14.0" layoutY="210.0" text="Sustojimo pradžia" />
+      <DatePicker fx:id="endDate" layoutX="14.0" layoutY="293.0" />
+      <Label layoutX="14.0" layoutY="275.0" text="Sustojimo pabaiga" />
+      <TextArea fx:id="reasonTextArea" layoutX="262.0" layoutY="42.0" prefHeight="279.0" prefWidth="279.0" />
+      <Label layoutX="261.0" layoutY="23.0" text="Sustojimo priežastis" />
+      <Button layoutX="477.0" layoutY="328.0" mnemonicParsing="false" onAction="#saveTruckStop" text="Išsaugoti" />
+   </children>
+</AnchorPane>

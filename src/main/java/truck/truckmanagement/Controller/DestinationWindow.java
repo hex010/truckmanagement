@@ -32,6 +32,11 @@ public class DestinationWindow {
     @FXML
     public Button saveButton;
 
+    @FXML
+    public ListView<TruckStop> truckStopsListView;
+    @FXML
+    public Label truckStopsText;
+
     private Destination selectedDestination;
     private CRUD_enum selectedAction;
     private DestinationService destinationService;
@@ -39,6 +44,7 @@ public class DestinationWindow {
     private FreightService freightService;
     private DestinationPointService destinationPointService;
     private UserService userService;
+    private TruckStopService truckStopService;
 
     public void setData(Destination selectedItem, CRUD_enum selectedAction) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
@@ -50,6 +56,7 @@ public class DestinationWindow {
         this.freightService = new FreightService(entityManagerFactory);
         this.destinationPointService = new DestinationPointService(entityManagerFactory);
         this.userService = new UserService(entityManagerFactory);
+        this.truckStopService = new TruckStopService(entityManagerFactory);
 
         fillFields();
     }
@@ -76,6 +83,7 @@ public class DestinationWindow {
             headerText.setText("Reisų peržiūra");
             saveButton.setDisable(true);
             comboBoxSelectFrontItem();
+            fillStopsList();
             return;
         }
 
@@ -151,4 +159,9 @@ public class DestinationWindow {
 
         return true;
     }
+    private void fillStopsList() {
+        List<TruckStop> truckStops = truckStopService.getAllTruckStopsByDestinationId(selectedDestination.getId());
+        truckStops.forEach(f->truckStopsListView.getItems().add(f));
+    }
+
 }
