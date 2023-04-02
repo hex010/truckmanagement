@@ -1,6 +1,5 @@
 package truck.truckmanagement.Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -51,8 +50,6 @@ public class ForumWindow {
     @FXML
     public Button applyReplyButton;
     @FXML
-    public Button editCommentButton;
-    @FXML
     public Button deleteMyCommentButton;
 
     private Forum selectedForumTopic;
@@ -77,7 +74,6 @@ public class ForumWindow {
     }
 
     private void fillFields() {
-        editCommentButton.setVisible(false);
         deleteMyCommentButton.setVisible(false);
         if(selectedAction == CRUD_enum.CREATE) {
             topicAuthorLabel.setText("Temos autorius: " + loggedInUser);
@@ -115,7 +111,6 @@ public class ForumWindow {
         }
     }
     private void newCommentUI() {
-        editCommentButton.setVisible(false);
         deleteMyCommentButton.setVisible(false);
         commentTextByLabel.setEditable(false);
         commentTextByLabel.clear();
@@ -214,9 +209,6 @@ public class ForumWindow {
         TreeItem<Comment> treeItem = new TreeItem<>(comment);
         parent.getChildren().add(treeItem);
         if(comment.getReplies() != null) comment.getReplies().forEach(r -> addTreeItem(r, treeItem));
-    }
-    @FXML
-    public void editMyComment() {
     }
     @FXML
     public void deleteMyComment() {
