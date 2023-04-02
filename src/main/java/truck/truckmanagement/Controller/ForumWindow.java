@@ -159,8 +159,10 @@ public class ForumWindow {
 
             if(selectedComment.getUser().getId() != loggedInUser.getId()){
                 commentTextByLabel.setEditable(false);
+                deleteMyCommentButton.setVisible(false);
             }else{
                 commentTextByLabel.setEditable(true);
+                deleteMyCommentButton.setVisible(true);
             }
         }else{
             selectedTreeItem = null;
@@ -212,5 +214,6 @@ public class ForumWindow {
     }
     @FXML
     public void deleteMyComment() {
+
     }
 }
