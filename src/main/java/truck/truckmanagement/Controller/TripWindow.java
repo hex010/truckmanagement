@@ -5,6 +5,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import truck.truckmanagement.Model.Destination;
 import truck.truckmanagement.Model.User;
+import truck.truckmanagement.Service.DestinationService;
+
+import java.time.LocalDate;
 
 public class TripWindow {
     @FXML
@@ -37,6 +40,7 @@ public class TripWindow {
     public Button finishTripButtonId;
     private User loggedInUser;
     private Destination selectedDestination;
+    private DestinationService destinationService;
     public void setData(Destination selectedItem, User loggedInUser) {
         this.loggedInUser = loggedInUser;
         this.selectedDestination = selectedItem;
@@ -60,6 +64,12 @@ public class TripWindow {
         transmissionTypeField.setText(transmissionTypeField.getText() + " " + selectedDestination.getTransport().getTransmissionType());
         mileageField.setText(mileageField.getText() + " " + selectedDestination.getTransport().getMileage());
         colorField.setText(colorField.getText() + " " + selectedDestination.getTransport().getColor());
+
+        isShowButton(selectedDestination.getEndDate());
+    }
+
+    public void isShowButton(LocalDate localDate) {
+        if(localDate != null) finishTripButtonId.setVisible(false);
     }
 
     @FXML
