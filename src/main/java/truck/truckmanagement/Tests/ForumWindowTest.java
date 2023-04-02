@@ -13,6 +13,8 @@ import truck.truckmanagement.Model.User;
 import truck.truckmanagement.Utils.FxUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -139,5 +141,41 @@ public class ForumWindowTest {
 
         //then
         assertTrue(forumWindow.commentTextByLabel.isEditable());
+    }
+    
+    @Test
+    public void replyCommentsShouldBeAddedToParentComment(){
+        //given
+        Comment comment = new Comment("some comment text", null, null, null);
+        Comment commentReply1 = new Comment("some comment text2", comment, null, null);
+        Comment commentReply2 = new Comment("some comment text3", comment, null, null);
+        List<Comment> allReplies = new ArrayList<>();
+        allReplies.add(commentReply1);
+        allReplies.add(commentReply2);
+
+        //when
+        comment.setReplies(allReplies);
+
+        //then
+        assertEquals(2, comment.getReplies().size());
+    }
+
+    @Test
+    public void replyCommentsShouldBeAddedToParentCommentInTreeView(){
+        //given
+        forumWindow.commentsTreeView = new TreeView<>();
+        forumWindow.commentsTreeView.setRoot(new TreeItem<>(new Comment()));
+        Comment comment = new Comment("some", null, null, null);
+        Comment commentReply1 = new Comment("some comment text2", comment, null, null);
+        Comment commentReply2 = new Comment("some comment text3", comment, null, null);
+        Comment commentReply3 = new Comment("some comment text3", comment, null, null);
+
+        //when
+        addTreeItem(comment, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply1, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply2, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply3, forumWindow.commentsTreeView.getRoot());
+        //then
+        assertEquals(3, forumWindow.commentsTreeView.getRoot().getChildren().size()-1);
     }
 }

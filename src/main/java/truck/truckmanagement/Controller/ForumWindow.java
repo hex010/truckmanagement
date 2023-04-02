@@ -180,6 +180,8 @@ public class ForumWindow {
             FxUtils.alertMessage(Alert.AlertType.ERROR, "Klaida", "Neužpildytas komentaras", "Užpildyti jūsų komentarą, jis negali būti tuščias.");
             return;
         }
+
+        //naujas komentaras
         if (selectedTreeItem == null || selectedComment == null) {
             Comment comment = new Comment(
                     myReplieToCommentTextArea.getText(),
@@ -194,6 +196,19 @@ public class ForumWindow {
 
             return;
         }
+
+        //atsakymas i komentara
+        Comment comment = new Comment(
+                myReplieToCommentTextArea.getText(),
+                selectedComment,
+                selectedForumTopic,
+                loggedInUser
+        );
+        commentService.createComment(comment);
+
+        addTreeItem(comment, selectedTreeItem);
+        myReplieToCommentTextArea.clear();
+        selectedTreeItem.setExpanded(true);
     }
     private void addTreeItem(Comment comment, TreeItem parent) {
         TreeItem<Comment> treeItem = new TreeItem<>(comment);
