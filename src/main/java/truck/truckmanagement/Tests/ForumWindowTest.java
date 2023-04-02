@@ -10,7 +10,6 @@ import truck.truckmanagement.Enum.Role_enum;
 import truck.truckmanagement.Model.Comment;
 import truck.truckmanagement.Model.Forum;
 import truck.truckmanagement.Model.User;
-import truck.truckmanagement.Utils.FxUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -176,6 +175,60 @@ public class ForumWindowTest {
         addTreeItem(commentReply2, forumWindow.commentsTreeView.getRoot());
         addTreeItem(commentReply3, forumWindow.commentsTreeView.getRoot());
         //then
+        assertEquals(3, forumWindow.commentsTreeView.getRoot().getChildren().size()-1);
+    }
+    @Test
+    public void selectedCommentShouldBeDeletedFromTreeViewAndAllTheirChildToo(){
+        //given
+        forumWindow.commentsTreeView = new TreeView<>();
+        forumWindow.commentsTreeView.setRoot(new TreeItem<>(new Comment()));
+
+        Comment comment = new Comment("some", null, null, null);
+        Comment commentReply1 = new Comment("some comment text2", comment, null, null);
+        Comment commentReply2 = new Comment("some comment text3", comment, null, null);
+        Comment commentReply3 = new Comment("some comment text4", comment, null, null);
+
+        addTreeItem(comment, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply1, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply2, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply3, forumWindow.commentsTreeView.getRoot());
+
+        TreeItem selectedTreeItem = new TreeItem<>();
+        selectedTreeItem = forumWindow.commentsTreeView.getRoot().getChildren().get(1);
+        Comment newReply = new Comment("some comment text 561", null, null, null);
+        addTreeItem(newReply, selectedTreeItem);
+
+        String selectedTreeItemCommentText = forumWindow.commentsTreeView.getRoot().getChildren().get(1).getValue().getCommentText();
+
+        //when
+        selectedTreeItem.getParent().getChildren().remove(selectedTreeItem);
+
+        //then
+        assertNotEquals(selectedTreeItemCommentText, forumWindow.commentsTreeView.getRoot().getChildren().get(1).getValue().getCommentText());
+        assertEquals(2, forumWindow.commentsTreeView.getRoot().getChildren().size()-1);
+    }
+
+    @Test
+    public void commentShouldNotBeDeletedIfCommentIsNotSelected(){
+        //given
+        forumWindow.commentsTreeView = new TreeView<>();
+        forumWindow.commentsTreeView.setRoot(new TreeItem<>(new Comment()));
+
+        Comment comment = new Comment("some", null, null, null);
+        Comment commentReply1 = new Comment("some comment text2", comment, null, null);
+        Comment commentReply2 = new Comment("some comment text3", comment, null, null);
+        Comment commentReply3 = new Comment("some comment text4", comment, null, null);
+
+        addTreeItem(comment, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply1, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply2, forumWindow.commentsTreeView.getRoot());
+        addTreeItem(commentReply3, forumWindow.commentsTreeView.getRoot());
+
+        TreeItem selectedTreeItem = new TreeItem();
+
+        if(selectedTreeItem.getValue() != null){
+            selectedTreeItem.getParent().getChildren().remove(selectedTreeItem);
+        }
         assertEquals(3, forumWindow.commentsTreeView.getRoot().getChildren().size()-1);
     }
 }

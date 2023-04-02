@@ -1,6 +1,5 @@
 package truck.truckmanagement.Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -22,6 +21,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 import static truck.truckmanagement.Utils.FxUtils.alertMessage;
+import static truck.truckmanagement.Utils.FxUtils.alertMessageYesAndNo;
 
 public class ForumWindow {
     @FXML
@@ -51,8 +51,6 @@ public class ForumWindow {
     @FXML
     public Button applyReplyButton;
     @FXML
-    public Button editCommentButton;
-    @FXML
     public Button deleteMyCommentButton;
 
     private Forum selectedForumTopic;
@@ -77,7 +75,6 @@ public class ForumWindow {
     }
 
     private void fillFields() {
-        editCommentButton.setVisible(false);
         deleteMyCommentButton.setVisible(false);
         if(selectedAction == CRUD_enum.CREATE) {
             topicAuthorLabel.setText("Temos autorius: " + loggedInUser);
@@ -115,7 +112,6 @@ public class ForumWindow {
         }
     }
     private void newCommentUI() {
-        editCommentButton.setVisible(false);
         deleteMyCommentButton.setVisible(false);
         commentTextByLabel.setEditable(false);
         commentTextByLabel.clear();
@@ -164,8 +160,10 @@ public class ForumWindow {
 
             if(selectedComment.getUser().getId() != loggedInUser.getId()){
                 commentTextByLabel.setEditable(false);
+                deleteMyCommentButton.setVisible(false);
             }else{
                 commentTextByLabel.setEditable(true);
+                deleteMyCommentButton.setVisible(true);
             }
         }else{
             selectedTreeItem = null;
@@ -216,9 +214,13 @@ public class ForumWindow {
         if(comment.getReplies() != null) comment.getReplies().forEach(r -> addTreeItem(r, treeItem));
     }
     @FXML
-    public void editMyComment() {
-    }
-    @FXML
     public void deleteMyComment() {
+        if(selectedComment != null) {
+            if (alertMessageYesAndNo("Patvirtinkite", "Ar Jūs įsitikinę, kad norite ištrinti šį komentarą?", "Paspauskite 'Taip' norint ištrinti, arba 'Ne' norint atšaukti.")) {
+                commentService.removeComment(selectedComment);
+                selectedTreeItem.getParent().getChildren().remove(selectedTreeItem);
+                alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Komentaras ištrintas", "Komentaras buvo sėkmingai ištrintas.");
+            }
+        }
     }
 }
