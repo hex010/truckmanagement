@@ -527,6 +527,15 @@ public class MainWindowAdmin {
 
     @FXML
     public void readForumTopic() {
+        if(checkIfForumTopicIsSelected()) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinkta forumo tema", "Prašome pasirinkti forumo temą iš sąrašo.");
+            return;
+        }
+        callForumTopicViewPage(CRUD_enum.VIEW);
+    }
+
+    private boolean checkIfForumTopicIsSelected() {
+        return listViewForum.getSelectionModel().getSelectedItems().isEmpty();
     }
 
     @FXML

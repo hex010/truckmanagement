@@ -50,6 +50,13 @@ public class ForumWindow {
             topicAuthorLabel.setText("Temos autorius: " + loggedInUser);
             labelComments.setVisible(false);
             scrollPane.setPrefHeight(398);
+        } else if(selectedAction == CRUD_enum.VIEW){
+            topicAuthorLabel.setText("Temos autorius: "+ selectedForumTopic.getUser());
+            topicHeaderTextField.setText(selectedForumTopic.getTitle());
+            topicDescriptionTextArea.setText(selectedForumTopic.getDescription());
+            topicHeaderTextField.setEditable(false);
+            topicDescriptionTextArea.setEditable(false);
+            saveButton.setDisable(true);
         }
     }
 
