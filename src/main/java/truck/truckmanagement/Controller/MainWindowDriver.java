@@ -111,6 +111,10 @@ public class MainWindowDriver {
             return;
         }
         callForumTopicViewPage(CRUD_enum.VIEW);
+
+        //kad atsinaujintu nauji komentarai
+        listViewForum.getItems().clear();
+        fillForumList();
     }
 
     private boolean checkIfForumTopicIsSelected() {

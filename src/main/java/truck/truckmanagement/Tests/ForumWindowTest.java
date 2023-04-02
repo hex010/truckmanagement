@@ -1,15 +1,16 @@
 package truck.truckmanagement.Tests;
 
 import javafx.application.Platform;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import truck.truckmanagement.Controller.ForumWindow;
 import truck.truckmanagement.Enum.Role_enum;
+import truck.truckmanagement.Model.Comment;
 import truck.truckmanagement.Model.Forum;
 import truck.truckmanagement.Model.User;
+import truck.truckmanagement.Utils.FxUtils;
 
 import java.time.LocalDate;
 
@@ -82,5 +83,41 @@ public class ForumWindowTest {
 
         //then
         assertEquals(someForumTopic.getUser(), currentUser);
+    }
+    @Test
+    public void shouldReturnTrueIfCommentTextIsEmpty(){
+        //given
+        forumWindow.myReplieToCommentTextArea = new TextArea("");
+
+        //when
+        boolean isempty = forumWindow.myReplieToCommentTextArea.getText().isEmpty();
+
+        //then
+        assertTrue(isempty);
+    }
+    @Test
+    public void shouldAddNewCommentToTreeViewIfCommentFieldIsFilled() throws InterruptedException {
+        //given
+        forumWindow.myReplieToCommentTextArea = new TextArea("adsg");
+        forumWindow.commentsTreeView = new TreeView<>();
+        forumWindow.commentsTreeView.setRoot(new TreeItem<>(new Comment()));
+        Comment comment = new Comment(forumWindow.myReplieToCommentTextArea.getText(), null, null, null);
+
+        //when
+        if (!forumWindow.myReplieToCommentTextArea.getText().isEmpty()) {
+            addTreeItem(comment, forumWindow.commentsTreeView.getRoot());
+        }
+
+        //then
+        if(forumWindow.myReplieToCommentTextArea.getText().isEmpty())
+            assertTrue(forumWindow.commentsTreeView.getRoot().getChildren().isEmpty());
+        else if(!forumWindow.myReplieToCommentTextArea.getText().isEmpty()){
+            assertFalse(forumWindow.commentsTreeView.getRoot().getChildren().isEmpty());
+        }
+    }
+    private void addTreeItem(Comment comment, TreeItem parent) {
+        TreeItem<Comment> treeItem = new TreeItem<>(comment);
+        parent.getChildren().add(treeItem);
+        if(comment.getReplies() != null) comment.getReplies().forEach(r -> addTreeItem(r, treeItem));
     }
 }

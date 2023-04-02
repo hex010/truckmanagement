@@ -8,12 +8,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import truck.truckmanagement.Enum.CRUD_enum;
+import truck.truckmanagement.Model.Comment;
 import truck.truckmanagement.Model.Forum;
 import truck.truckmanagement.Model.User;
+import truck.truckmanagement.Service.CommentService;
 import truck.truckmanagement.Service.ForumService;
+import truck.truckmanagement.Utils.FxUtils;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import java.util.List;
 
 import static truck.truckmanagement.Utils.FxUtils.alertMessage;
 
@@ -53,6 +58,10 @@ public class ForumWindow {
     private CRUD_enum selectedAction;
     private User loggedInUser;
     private ForumService forumService;
+    private CommentService commentService;
+
+    private Comment selectedComment;
+    private TreeItem selectedTreeItem;
 
     public void setData(Forum selectedItem, CRUD_enum selectedAction, User loggedInUser) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
@@ -61,6 +70,7 @@ public class ForumWindow {
         this.selectedAction = selectedAction;
         this.loggedInUser = loggedInUser;
         this.forumService = new ForumService(entityManagerFactory);
+        this.commentService = new CommentService(entityManagerFactory);
 
         fillFields();
     }
@@ -80,6 +90,8 @@ public class ForumWindow {
             anchorPaneComments.setVisible(false);
             scrollPane.setPrefHeight(398);
         } else if(selectedAction == CRUD_enum.VIEW){
+            newCommentUI();
+            loadComments();
             topicAuthorLabel.setText("Temos autorius: "+ selectedForumTopic.getUser());
             topicHeaderTextField.setText(selectedForumTopic.getTitle());
             topicDescriptionTextArea.setText(selectedForumTopic.getDescription());
@@ -88,7 +100,29 @@ public class ForumWindow {
             saveButton.setDisable(true);
         }
     }
+    public void loadComments() {
+        List<Comment> comments = selectedForumTopic.getCommets();
 
+        commentsTreeView.setRoot(new TreeItem<>(new Comment()));
+        commentsTreeView.setShowRoot(false);
+        commentsTreeView.getRoot().setExpanded(true);
+
+        for(Comment comment : comments){
+            if(comment.getParentComment() == null){
+                addTreeItem(comment, commentsTreeView.getRoot());
+            }
+        }
+    }
+    private void newCommentUI() {
+        editCommentButton.setVisible(false);
+        deleteMyCommentButton.setVisible(false);
+        commentTextByLabel.setEditable(false);
+        commentTextByLabel.clear();
+        myReplieToCommentTextArea.clear();
+        commentByLabel.setVisible(false);
+        commentReplyLabel.setText("Rašyti naują komentarą:");
+        applyReplyButton.setText("Pateikti komentarą");
+    }
     @FXML
     public void buttonSave() {
         if(fieldIsEmpty()) return;
@@ -119,6 +153,29 @@ public class ForumWindow {
     }
     @FXML
     public void applyReply() {
+        if (myReplieToCommentTextArea.getText().isEmpty()) {
+            FxUtils.alertMessage(Alert.AlertType.ERROR, "Klaida", "Neužpildytas komentaras", "Užildyti jūsų komentarą, jis negali būti tuščias.");
+            return;
+        }
+        if (selectedTreeItem == null || selectedComment == null) {
+            Comment comment = new Comment(
+                    myReplieToCommentTextArea.getText(),
+                    null,
+                    selectedForumTopic,
+                    loggedInUser
+            );
+            commentService.createComment(comment);
+
+            addTreeItem(comment, commentsTreeView.getRoot());
+            myReplieToCommentTextArea.clear();
+
+            return;
+        }
+    }
+    private void addTreeItem(Comment comment, TreeItem parent) {
+        TreeItem<Comment> treeItem = new TreeItem<>(comment);
+        parent.getChildren().add(treeItem);
+        if(comment.getReplies() != null) comment.getReplies().forEach(r -> addTreeItem(r, treeItem));
     }
     @FXML
     public void editMyComment() {
