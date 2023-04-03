@@ -26,9 +26,23 @@ public class MainWindowDriver {
     public ListView<Destination> listViewTrips;
     @FXML
     public ListView<Forum> listViewForum;
+    @FXML
+    public TextField fieldFirstname;
+    @FXML
+    public TextField fieldLastname;
+    @FXML
+    public TextField fieldEmail;
+    @FXML
+    public TextField fieldPassword;
+    @FXML
+    public TextField fieldPhone;
+    @FXML
+    public DatePicker dateBirthday;
+
     private User loggedInUser;
     private DestinationService destinationService;
     private ForumService forumService;
+    private UserService userService;
 
     public void setData(User user) {
         this.loggedInUser = user;
@@ -36,6 +50,7 @@ public class MainWindowDriver {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
         this.destinationService = new DestinationService(entityManagerFactory);
         this.forumService = new ForumService(entityManagerFactory);
+        this.userService = new UserService(entityManagerFactory);
 
         fillFields();
     }
@@ -43,6 +58,7 @@ public class MainWindowDriver {
     private void fillFields() {
         fillTripsList();
         fillForumList();
+        fillProfileFields();
     }
 
     private void fillTripsList() {
@@ -132,5 +148,13 @@ public class MainWindowDriver {
     private void fillForumList() {
         List<Forum> forums = forumService.getAllForums();
         forums.forEach(f->listViewForum.getItems().add(f));
+    }
+    private void fillProfileFields() {
+        fieldFirstname.setText(loggedInUser.getFirstname());
+        fieldLastname.setText(loggedInUser.getLastname());
+        fieldPassword.setText(loggedInUser.getPassword());
+        fieldEmail.setText(loggedInUser.getEmail());
+        fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
+        dateBirthday.setValue(loggedInUser.getBirthday());
     }
 }

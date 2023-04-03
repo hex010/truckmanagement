@@ -78,6 +78,19 @@ public class MainWindowManager {
     public Button deleteTripButtonId;
     @FXML
     public ListView<Forum> listViewForum;
+    @FXML
+    public TextField fieldFirstname;
+    @FXML
+    public TextField fieldLastname;
+    @FXML
+    public TextField fieldEmail;
+    @FXML
+    public TextField fieldPassword;
+    @FXML
+    public TextField fieldPhone;
+    @FXML
+    public DatePicker dateBirthday;
+
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -91,6 +104,7 @@ public class MainWindowManager {
     public void setData(User user) {
         this.loggedInUser = user;
 
+
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
         userService = new UserService(entityManagerFactory);
         freightService = new FreightService(entityManagerFactory);
@@ -98,6 +112,7 @@ public class MainWindowManager {
         destinationPointService = new DestinationPointService(entityManagerFactory);
         destinationService = new DestinationService(entityManagerFactory);
         forumService = new ForumService(entityManagerFactory);
+        this.userService = new UserService(entityManagerFactory);
 
         setTransprotTableParameters();
 
@@ -106,6 +121,7 @@ public class MainWindowManager {
         fillcheckpointList();
         fillTripList();
         fillForumList();
+        fillProfileFields();
 
         deleteTripButtonId.setVisible(false);
         deleteUserButtonId.setVisible(false);
@@ -576,5 +592,13 @@ public class MainWindowManager {
     private void fillForumList() {
         List<Forum> forums = forumService.getAllForums();
         forums.forEach(f->listViewForum.getItems().add(f));
+    }
+    private void fillProfileFields() {
+        fieldFirstname.setText(loggedInUser.getFirstname());
+        fieldLastname.setText(loggedInUser.getLastname());
+        fieldPassword.setText(loggedInUser.getPassword());
+        fieldEmail.setText(loggedInUser.getEmail());
+        fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
+        dateBirthday.setValue(loggedInUser.getBirthday());
     }
 }
