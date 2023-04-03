@@ -38,7 +38,8 @@ public class MainWindowDriver {
     public TextField fieldPhone;
     @FXML
     public DatePicker dateBirthday;
-
+    @FXML
+    public CheckBox finishedTrips;
     private User loggedInUser;
     private DestinationService destinationService;
     private ForumService forumService;
@@ -190,5 +191,8 @@ public class MainWindowDriver {
         loggedInUser.setEmail(fieldEmail.getText());
         loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
         loggedInUser.setBirthday(dateBirthday.getValue());
+    }
+
+    public void applyFilterOnTripsList(ActionEvent actionEvent) {
     }
 }

@@ -90,7 +90,8 @@ public class MainWindowManager {
     public TextField fieldPhone;
     @FXML
     public DatePicker dateBirthday;
-
+    @FXML
+    public CheckBox finishedTripsCheckBox;
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -626,5 +627,8 @@ public class MainWindowManager {
         loggedInUser.setEmail(fieldEmail.getText());
         loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
         loggedInUser.setBirthday(dateBirthday.getValue());
+    }
+
+    public void showFinishedTrips(ActionEvent actionEvent) {
     }
 }

@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.CheckBox?>
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="355.0" prefWidth="556.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.MainWindowDriver">
   <tabs>
     <Tab text="Reisai">
@@ -24,6 +25,7 @@
                      </font>
                   </Text>
                   <Button layoutX="472.0" layoutY="15.0" mnemonicParsing="false" onAction="#viewTrip" prefHeight="30.0" prefWidth="68.0" text="Peržiūrėti" />
+                   <CheckBox fx:id="finishedTrips" layoutX="16.0" layoutY="40.0" mnemonicParsing="false" onAction="#applyFilterOnTripsList" text="Rodyti pasibaigusius taip pat" />
                </children></AnchorPane>
       </content>
     </Tab>

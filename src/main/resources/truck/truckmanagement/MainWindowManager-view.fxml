@@ -13,6 +13,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.CheckBox?>
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="670.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="truck.truckmanagement.Controller.MainWindowManager">
   <tabs>
     <Tab text="Reisai">
@@ -29,6 +30,7 @@
                   <Button layoutX="567.0" layoutY="91.0" mnemonicParsing="false" onAction="#editTrip" prefHeight="30.0" prefWidth="78.0" text="Redaguoti" />
                   <Button layoutX="567.0" layoutY="132.0" mnemonicParsing="false" onAction="#createTrip" prefHeight="30.0" prefWidth="77.0" text="Sukurti" />
                   <Button fx:id="deleteTripButtonId" layoutX="567.0" layoutY="172.0" mnemonicParsing="false" onAction="#deleteTrip" prefHeight="30.0" prefWidth="77.0" text="Ištrinti" />
+                   <CheckBox fx:id="finishedTripsCheckBox" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#showFinishedTrips" text="Rodyti pasibaigusius" />
                </children></AnchorPane>
       </content>
     </Tab>
