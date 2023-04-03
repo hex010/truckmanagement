@@ -100,5 +100,29 @@ public class MainWindowTest {
 
     }
 
+    @Test
+    public void shouldReturnTrueIfUserDataIsUpdated(){
+        User loggedInUser = new User(VAIRUOTOJAS,"Vardas","Pass","Vardenis","Pavardenis","Elpastas@gmai.co",867898887,LocalDate.of(2000,12,22) );
+        mainWindowDriver.fieldFirstname.setText(loggedInUser.getFirstname()+"NEW");
+        mainWindowDriver.fieldLastname.setText(loggedInUser.getLastname()+"NEW");
+        mainWindowDriver.fieldPassword.setText(loggedInUser.getPassword()+"NEW");
+        mainWindowDriver.fieldEmail.setText(loggedInUser.getEmail()+"NEW");
+        mainWindowDriver.fieldPhone.setText(loggedInUser.getPhoneNumber() +"8");
+        mainWindowDriver.dateBirthday.setValue(loggedInUser.getBirthday());
+
+        loggedInUser.setPassword(mainWindowDriver.fieldPassword.getText());
+        loggedInUser.setFirstname(mainWindowDriver.fieldFirstname.getText());
+        loggedInUser.setLastname(mainWindowDriver.fieldLastname.getText());
+        loggedInUser.setEmail(mainWindowDriver.fieldEmail.getText());
+        loggedInUser.setPhoneNumber(Integer.parseInt(mainWindowDriver.fieldPhone.getText()));
+        loggedInUser.setBirthday(mainWindowDriver.dateBirthday.getValue());
+
+        assertEquals("VardasNEW",loggedInUser.getFirstname());
+        assertEquals("VardenisNEW",loggedInUser.getLastname());
+        assertEquals("PassNEW",loggedInUser.getPassword());
+        assertEquals("Elpastas@gmai.coNEW",loggedInUser.getEmail());
+        assertEquals("8678988878",String.valueOf(loggedInUser.getPhoneNumber()));
+    }
+
 
 }
