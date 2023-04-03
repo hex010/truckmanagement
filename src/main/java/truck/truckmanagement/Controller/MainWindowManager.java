@@ -25,6 +25,7 @@ import javax.persistence.Persistence;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import static truck.truckmanagement.Utils.FxUtils.alertMessage;
@@ -90,7 +91,8 @@ public class MainWindowManager {
     public TextField fieldPhone;
     @FXML
     public DatePicker dateBirthday;
-
+    @FXML
+    public CheckBox finishedTripsCheckBox;
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -130,9 +132,14 @@ public class MainWindowManager {
     private void fillTripList() {
         List<Destination> destinations = destinationService.getAllDestinationsByManagerId(loggedInUser.getId());
 
-        for (Destination destination: destinations){
-            if(destination.getEndDate() == null){
-                listViewTrips.getItems().add(destination);
+        if(finishedTripsCheckBox.isSelected()){
+            destinations.sort(Comparator.comparing(Destination::getEndDate,Comparator.nullsFirst(Comparator.naturalOrder())));
+            destinations.forEach(d->listViewTrips.getItems().add(d));
+        }else{
+            for (Destination destination: destinations){
+                if(destination.getEndDate() == null){
+                    listViewTrips.getItems().add(destination);
+                }
             }
         }
     }
@@ -626,5 +633,11 @@ public class MainWindowManager {
         loggedInUser.setEmail(fieldEmail.getText());
         loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
         loggedInUser.setBirthday(dateBirthday.getValue());
+    }
+
+    @FXML
+    public void showFinishedTrips(ActionEvent actionEvent) {
+        listViewTrips.getItems().clear();
+        fillTripList();
     }
 }
