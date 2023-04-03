@@ -73,6 +73,19 @@ public class MainWindowAdmin {
     public ListView<User> userList;
     @FXML
     public ListView<Forum> listViewForum;
+    @FXML
+    public TextField fieldFirstname;
+    @FXML
+    public TextField fieldLastname;
+    @FXML
+    public TextField fieldEmail;
+    @FXML
+    public TextField fieldPassword;
+    @FXML
+    public TextField fieldPhone;
+    @FXML
+    public DatePicker dateBirthday;
+
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -86,6 +99,7 @@ public class MainWindowAdmin {
     public void setData(User user) {
         this.loggedInUser = user;
 
+
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
         userService = new UserService(entityManagerFactory);
         freightService = new FreightService(entityManagerFactory);
@@ -94,6 +108,7 @@ public class MainWindowAdmin {
         destinationService = new DestinationService(entityManagerFactory);
         forumService = new ForumService(entityManagerFactory);
 
+
         setTransprotTableParameters();
 
         fillUserList();
@@ -101,32 +116,32 @@ public class MainWindowAdmin {
         fillcheckpointList();
         fillTripList();
         fillForumList();
+        fillProfileFields();
     }
 
     private void fillTripList() {
         List<Destination> destinations = destinationService.getAllDestinations();
 
-        destinations.forEach(d->listViewTrips.getItems().add(d));
+        destinations.forEach(d -> listViewTrips.getItems().add(d));
     }
 
     private void fillcheckpointList() {
         List<DestinationPoint> destinationPoints = destinationPointService.getAllDestinationPoints();
 
-        destinationPoints.forEach(c->listViewCheckpoint.getItems().add(c));
+        destinationPoints.forEach(c -> listViewCheckpoint.getItems().add(c));
     }
-
 
 
     private void fillFreightList() {
         List<Freight> freights = freightService.getAllFreights();
 
-        freights.forEach(f->freightList.getItems().add(f));
+        freights.forEach(f -> freightList.getItems().add(f));
     }
 
     private void fillUserList() {
         List<User> users = userService.getAllUsers();
 
-        users.forEach(u->userList.getItems().add(u));
+        users.forEach(u -> userList.getItems().add(u));
     }
 
     private void setTransprotTableParameters() {
@@ -136,7 +151,7 @@ public class MainWindowAdmin {
 
         columnTruckModel.setCellValueFactory(new PropertyValueFactory<>("truckModel"));
         columnTruckModel.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckModel.setOnEditCommit(t-> {
+        columnTruckModel.setOnEditCommit(t -> {
             t.getTableView().getItems().get(
                     t.getTablePosition().getRow()).setTruckModel(t.getNewValue());
             Transport transport = transportService.getTransportById(Integer.parseInt(t.getTableView().getItems().get(t.getTablePosition().getRow()).getTruckId()));
@@ -146,8 +161,8 @@ public class MainWindowAdmin {
 
         columnTruckMaxSpeed.setCellValueFactory(new PropertyValueFactory<>("truckMaxSpeed"));
         columnTruckMaxSpeed.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckMaxSpeed.setOnEditCommit(t-> {
-            if(!isNumeric(t.getNewValue())) {
+        columnTruckMaxSpeed.setOnEditCommit(t -> {
+            if (!isNumeric(t.getNewValue())) {
                 alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Įvesti galima tik skaičių.");
                 return;
             }
@@ -160,8 +175,8 @@ public class MainWindowAdmin {
 
         columnTruckMileage.setCellValueFactory(new PropertyValueFactory<>("truckMileage"));
         columnTruckMileage.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckMileage.setOnEditCommit(t-> {
-            if(!isNumeric(t.getNewValue())) {
+        columnTruckMileage.setOnEditCommit(t -> {
+            if (!isNumeric(t.getNewValue())) {
                 alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Įvesti galima tik skaičių.");
                 return;
             }
@@ -174,7 +189,7 @@ public class MainWindowAdmin {
 
         columnTruckManufacturedDate.setCellValueFactory(new PropertyValueFactory<>("truckManufacturedDate"));
         columnTruckManufacturedDate.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckManufacturedDate.setOnEditCommit(t-> {
+        columnTruckManufacturedDate.setOnEditCommit(t -> {
             t.getTableView().getItems().get(
                     t.getTablePosition().getRow()).setTruckManufacturedDate(t.getNewValue());
             Transport transport = transportService.getTransportById(Integer.parseInt(t.getTableView().getItems().get(t.getTablePosition().getRow()).getTruckId()));
@@ -184,7 +199,7 @@ public class MainWindowAdmin {
 
         columnTruckColor.setCellValueFactory(new PropertyValueFactory<>("truckColor"));
         columnTruckColor.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckColor.setOnEditCommit(t-> {
+        columnTruckColor.setOnEditCommit(t -> {
             t.getTableView().getItems().get(
                     t.getTablePosition().getRow()).setTruckColor(t.getNewValue());
             Transport transport = transportService.getTransportById(Integer.parseInt(t.getTableView().getItems().get(t.getTablePosition().getRow()).getTruckId()));
@@ -194,7 +209,7 @@ public class MainWindowAdmin {
 
         columnTruckFuelType.setCellValueFactory(new PropertyValueFactory<>("truckFuelType"));
         columnTruckFuelType.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckFuelType.setOnEditCommit(t-> {
+        columnTruckFuelType.setOnEditCommit(t -> {
             t.getTableView().getItems().get(
                     t.getTablePosition().getRow()).setTruckFuelType(t.getNewValue());
             Transport transport = transportService.getTransportById(Integer.parseInt(t.getTableView().getItems().get(t.getTablePosition().getRow()).getTruckId()));
@@ -204,7 +219,7 @@ public class MainWindowAdmin {
 
         columnTruckTransimissionType.setCellValueFactory(new PropertyValueFactory<>("truckTransmissionType"));
         columnTruckTransimissionType.setCellFactory(TextFieldTableCell.forTableColumn()); //redagavimui
-        columnTruckTransimissionType.setOnEditCommit(t-> {
+        columnTruckTransimissionType.setOnEditCommit(t -> {
             t.getTableView().getItems().get(
                     t.getTablePosition().getRow()).setTruckTransmissionType(t.getNewValue());
             Transport transport = transportService.getTransportById(Integer.parseInt(t.getTableView().getItems().get(t.getTablePosition().getRow()).getTruckId()));
@@ -220,13 +235,14 @@ public class MainWindowAdmin {
 
         fillTransportTable();
     }
+
     public static boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 
     private void fillTransportTable() {
         List<Transport> transports = transportService.getAllTransports();
-        for(Transport transport : transports){
+        for (Transport transport : transports) {
             TransportTableParameters transportTableParameters = new TransportTableParameters();
             transportTableParameters.setTruckId(String.valueOf(transport.getId()));
             transportTableParameters.setTruckModel(transport.getModel());
@@ -240,6 +256,7 @@ public class MainWindowAdmin {
         }
         truckTableView.setItems(truckData);
     }
+
     private void resetTruckFields() {
         truckModelField.clear();
         truckMaxSpeedField.clear();
@@ -249,9 +266,11 @@ public class MainWindowAdmin {
         truckFuelTypeField.clear();
         truckTransmissionTypeField.clear();
     }
-    private Boolean checkIfUserIsSelected(){
+
+    private Boolean checkIfUserIsSelected() {
         return userList.getSelectionModel().getSelectedItems().isEmpty();
     }
+
     private boolean checkIfTripIsSelected() {
         return listViewTrips.getSelectionModel().getSelectedItems().isEmpty();
     }
@@ -259,12 +278,14 @@ public class MainWindowAdmin {
     private boolean checkIfCheckpointIsSelected() {
         return listViewCheckpoint.getSelectionModel().getSelectedItems().isEmpty();
     }
+
     private boolean checkIfFreightIsSelected() {
         return freightList.getSelectionModel().getSelectedItems().isEmpty();
     }
+
     @FXML
     public void viewTrip(ActionEvent actionEvent) {
-        if(checkIfTripIsSelected()) {
+        if (checkIfTripIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas reisas", "Prašome pasirinkti reisą iš sąrašo.");
             return;
         }
@@ -273,7 +294,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void editTrip(ActionEvent actionEvent) {
-        if(checkIfTripIsSelected()) {
+        if (checkIfTripIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas reisas", "Prašome pasirinkti reisą iš sąrašo.");
             return;
         }
@@ -291,7 +312,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void deleteTrip(ActionEvent actionEvent) {
-        if(checkIfTripIsSelected()) {
+        if (checkIfTripIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas reisas", "Prašome pasirinkti reisą iš sąrašo.");
             return;
         }
@@ -299,6 +320,7 @@ public class MainWindowAdmin {
         listViewTrips.getItems().remove(listViewTrips.getSelectionModel().getSelectedIndex());
         alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Reisas ištrintas", "Reisas buvo sėkmingai ištrintas.");
     }
+
     private void callTripViewPage(CRUD_enum selectedAction) {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Destination-view.fxml"));
         try {
@@ -319,8 +341,8 @@ public class MainWindowAdmin {
 
     @FXML
     public void addTruckButton(ActionEvent actionEvent) {
-        if(checkTruckFieldIsEmpty()) return;
-        if(!isNumeric(truckMaxSpeedField.getText()) || !isNumeric(truckMileageField.getText())){
+        if (checkTruckFieldIsEmpty()) return;
+        if (!isNumeric(truckMaxSpeedField.getText()) || !isNumeric(truckMileageField.getText())) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Ne visi įvesti duomenys yra korektiški.");
             return;
         }
@@ -332,8 +354,9 @@ public class MainWindowAdmin {
         truckData.clear();
         fillTransportTable();
     }
+
     private boolean checkTruckFieldIsEmpty() {
-        if(truckFuelTypeField.getText().isEmpty() || colorField.getText().isEmpty() || truckMileageField.getText().isEmpty() || truckModelField.getText().isEmpty() || truckTransmissionTypeField.getText().isEmpty() || truckMaxSpeedField.getText().isEmpty()){
+        if (truckFuelTypeField.getText().isEmpty() || colorField.getText().isEmpty() || truckMileageField.getText().isEmpty() || truckModelField.getText().isEmpty() || truckTransmissionTypeField.getText().isEmpty() || truckMaxSpeedField.getText().isEmpty()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Prašome įvesti visus duomenis.");
             return true;
         }
@@ -342,7 +365,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void showFreight(ActionEvent actionEvent) {
-        if(checkIfFreightIsSelected()) {
+        if (checkIfFreightIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas krovinys", "Prašome pasirinkti krovinį iš sąrašo.");
             return;
         }
@@ -351,7 +374,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void editFreight(ActionEvent actionEvent) {
-        if(checkIfFreightIsSelected()) {
+        if (checkIfFreightIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas krovinys", "Prašome pasirinkti krovinį iš sąrašo.");
             return;
         }
@@ -369,7 +392,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void deleteFreight(ActionEvent actionEvent) {
-        if(checkIfFreightIsSelected()) {
+        if (checkIfFreightIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas krovinys", "Prašome pasirinkti krovinį iš sąrašo.");
             return;
         }
@@ -378,7 +401,7 @@ public class MainWindowAdmin {
         alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Krovinys ištrintas", "Krovinys buvo sėkmingai ištrintas.");
     }
 
-    void callFreightViewPage(CRUD_enum selectedAction){
+    void callFreightViewPage(CRUD_enum selectedAction) {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Freight-view.fxml"));
         try {
             Parent parent = fxmlLoader.load();
@@ -398,7 +421,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void showCheckpoint(ActionEvent actionEvent) {
-        if(checkIfCheckpointIsSelected()) {
+        if (checkIfCheckpointIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas maršrutas", "Prašome pasirinkti maršrutą iš sąrašo.");
             return;
         }
@@ -407,7 +430,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void editCheckpoint(ActionEvent actionEvent) {
-        if(checkIfCheckpointIsSelected()) {
+        if (checkIfCheckpointIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas maršrutas", "Prašome pasirinkti maršrutą iš sąrašo.");
             return;
         }
@@ -425,7 +448,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void deleteCheckpoint(ActionEvent actionEvent) {
-        if(checkIfCheckpointIsSelected()) {
+        if (checkIfCheckpointIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas maršrutas", "Prašome pasirinkti maršrutą iš sąrašo.");
             return;
         }
@@ -454,7 +477,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void showUser(ActionEvent actionEvent) {
-        if(checkIfUserIsSelected()) {
+        if (checkIfUserIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas vartotojas", "Prašome pasirinkti vartotoją iš sąrašo.");
             return;
         }
@@ -463,7 +486,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void editUser(ActionEvent actionEvent) {
-        if(checkIfUserIsSelected()) {
+        if (checkIfUserIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas vartotojas", "Prašome pasirinkti vartotoją iš sąrašo.");
             return;
         }
@@ -481,7 +504,7 @@ public class MainWindowAdmin {
 
     @FXML
     public void deleteUser(ActionEvent actionEvent) {
-        if(checkIfUserIsSelected()) {
+        if (checkIfUserIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas vartotojas", "Prašome pasirinkti vartotoją iš sąrašo.");
             return;
         }
@@ -489,7 +512,8 @@ public class MainWindowAdmin {
         userList.getItems().remove(userList.getSelectionModel().getSelectedIndex());
         alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas ištrintas", "Vartotojas buvo sėkmingai ištrintas.");
     }
-    void callUserViewPage(CRUD_enum selectedAction){
+
+    void callUserViewPage(CRUD_enum selectedAction) {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("User-view.fxml"));
         try {
             Parent parent = fxmlLoader.load();
@@ -527,11 +551,15 @@ public class MainWindowAdmin {
 
     @FXML
     public void readForumTopic() {
-        if(checkIfForumTopicIsSelected()) {
+        if (checkIfForumTopicIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinkta forumo tema", "Prašome pasirinkti forumo temą iš sąrašo.");
             return;
         }
         callForumTopicViewPage(CRUD_enum.VIEW);
+
+        //kad atsinaujintu nauji komentarai
+        listViewForum.getItems().clear();
+        fillForumList();
     }
 
     private boolean checkIfForumTopicIsSelected() {
@@ -548,6 +576,42 @@ public class MainWindowAdmin {
 
     private void fillForumList() {
         List<Forum> forums = forumService.getAllForums();
-        forums.forEach(f->listViewForum.getItems().add(f));
+        forums.forEach(f -> listViewForum.getItems().add(f));
+    }
+
+    private void fillProfileFields() {
+        fieldFirstname.setText(loggedInUser.getFirstname());
+        fieldLastname.setText(loggedInUser.getLastname());
+        fieldPassword.setText(loggedInUser.getPassword());
+        fieldEmail.setText(loggedInUser.getEmail());
+        fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
+        dateBirthday.setValue(loggedInUser.getBirthday());
+    }
+
+    private boolean myInfofieldsAreEmpty() {
+        if (fieldPassword.getText().isEmpty() || fieldFirstname.getText().isEmpty() || fieldLastname.getText().isEmpty() || fieldEmail.getText().isEmpty() || fieldPhone.getText().isEmpty()) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Prašome įvesti visus duomenis.");
+            return true;
+        }
+        if (!isNumeric(fieldPhone.getText()) || fieldPhone.getText().length() != 9) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Netinkamas telefono numerio formatas.");
+            return true;
+        }
+        return false;
+    }
+    @FXML
+    public void saveMyInfo() {
+        if(myInfofieldsAreEmpty()) return;
+        updateMyInfo();
+        userService.updateUser(loggedInUser);
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas atnaujintas", "Jūsų duomenys buvo sėkmingai atnaujinti.");
+    }
+    private void updateMyInfo() {
+        loggedInUser.setPassword(fieldPassword.getText());
+        loggedInUser.setFirstname(fieldFirstname.getText());
+        loggedInUser.setLastname(fieldLastname.getText());
+        loggedInUser.setEmail(fieldEmail.getText());
+        loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
+        loggedInUser.setBirthday(dateBirthday.getValue());
     }
 }

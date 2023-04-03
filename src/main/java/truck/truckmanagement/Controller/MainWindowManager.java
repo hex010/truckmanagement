@@ -78,6 +78,19 @@ public class MainWindowManager {
     public Button deleteTripButtonId;
     @FXML
     public ListView<Forum> listViewForum;
+    @FXML
+    public TextField fieldFirstname;
+    @FXML
+    public TextField fieldLastname;
+    @FXML
+    public TextField fieldEmail;
+    @FXML
+    public TextField fieldPassword;
+    @FXML
+    public TextField fieldPhone;
+    @FXML
+    public DatePicker dateBirthday;
+
 
     private User loggedInUser;
     private ObservableList<TransportTableParameters> truckData = FXCollections.observableArrayList();
@@ -91,6 +104,7 @@ public class MainWindowManager {
     public void setData(User user) {
         this.loggedInUser = user;
 
+
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
         userService = new UserService(entityManagerFactory);
         freightService = new FreightService(entityManagerFactory);
@@ -98,6 +112,7 @@ public class MainWindowManager {
         destinationPointService = new DestinationPointService(entityManagerFactory);
         destinationService = new DestinationService(entityManagerFactory);
         forumService = new ForumService(entityManagerFactory);
+        this.userService = new UserService(entityManagerFactory);
 
         setTransprotTableParameters();
 
@@ -106,6 +121,7 @@ public class MainWindowManager {
         fillcheckpointList();
         fillTripList();
         fillForumList();
+        fillProfileFields();
 
         deleteTripButtonId.setVisible(false);
         deleteUserButtonId.setVisible(false);
@@ -555,6 +571,10 @@ public class MainWindowManager {
             return;
         }
         callForumTopicViewPage(CRUD_enum.VIEW);
+
+        //kad atsinaujintu nauji komentarai
+        listViewForum.getItems().clear();
+        fillForumList();
     }
 
     private boolean checkIfForumTopicIsSelected() {
@@ -572,5 +592,39 @@ public class MainWindowManager {
     private void fillForumList() {
         List<Forum> forums = forumService.getAllForums();
         forums.forEach(f->listViewForum.getItems().add(f));
+    }
+    private void fillProfileFields() {
+        fieldFirstname.setText(loggedInUser.getFirstname());
+        fieldLastname.setText(loggedInUser.getLastname());
+        fieldPassword.setText(loggedInUser.getPassword());
+        fieldEmail.setText(loggedInUser.getEmail());
+        fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
+        dateBirthday.setValue(loggedInUser.getBirthday());
+    }
+    private boolean myInfofieldsAreEmpty() {
+        if(fieldPassword.getText().isEmpty() || fieldFirstname.getText().isEmpty() || fieldLastname.getText().isEmpty() || fieldEmail.getText().isEmpty() || fieldPhone.getText().isEmpty()){
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Prašome įvesti visus duomenis.");
+            return true;
+        }
+        if(!isNumeric(fieldPhone.getText()) || fieldPhone.getText().length() != 9){
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Netinkamas telefono numerio formatas.");
+            return true;
+        }
+        return false;
+    }
+    @FXML
+    public void saveMyInfo() {
+        if(myInfofieldsAreEmpty()) return;
+        updateMyInfo();
+        userService.updateUser(loggedInUser);
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas atnaujintas", "Jūsų duomenys buvo sėkmingai atnaujinti.");
+    }
+    private void updateMyInfo() {
+        loggedInUser.setPassword(fieldPassword.getText());
+        loggedInUser.setFirstname(fieldFirstname.getText());
+        loggedInUser.setLastname(fieldLastname.getText());
+        loggedInUser.setEmail(fieldEmail.getText());
+        loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
+        loggedInUser.setBirthday(dateBirthday.getValue());
     }
 }
