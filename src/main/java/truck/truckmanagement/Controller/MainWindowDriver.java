@@ -26,9 +26,23 @@ public class MainWindowDriver {
     public ListView<Destination> listViewTrips;
     @FXML
     public ListView<Forum> listViewForum;
+    @FXML
+    public TextField fieldFirstname;
+    @FXML
+    public TextField fieldLastname;
+    @FXML
+    public TextField fieldEmail;
+    @FXML
+    public TextField fieldPassword;
+    @FXML
+    public TextField fieldPhone;
+    @FXML
+    public DatePicker dateBirthday;
+
     private User loggedInUser;
     private DestinationService destinationService;
     private ForumService forumService;
+    private UserService userService;
 
     public void setData(User user) {
         this.loggedInUser = user;
@@ -36,6 +50,7 @@ public class MainWindowDriver {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
         this.destinationService = new DestinationService(entityManagerFactory);
         this.forumService = new ForumService(entityManagerFactory);
+        this.userService = new UserService(entityManagerFactory);
 
         fillFields();
     }
@@ -43,12 +58,13 @@ public class MainWindowDriver {
     private void fillFields() {
         fillTripsList();
         fillForumList();
+        fillProfileFields();
     }
 
     private void fillTripsList() {
         List<Destination> destinations = destinationService.getAllDestinationsByDriverId(loggedInUser.getId(), Destination_filters_enum.NONE, "");
-        for (Destination destination: destinations){
-            if(destination.getEndDate() == null){
+        for (Destination destination : destinations) {
+            if (destination.getEndDate() == null) {
                 listViewTrips.getItems().add(destination);
                 break;
             }
@@ -76,9 +92,10 @@ public class MainWindowDriver {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void viewTrip() {
-        if(checkIfTripIsSelected()) {
+        if (checkIfTripIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas reisas", "Prašome pasirinkti reisą iš sąrašo.");
             return;
         }
@@ -106,7 +123,7 @@ public class MainWindowDriver {
 
     @FXML
     public void readForumTopic() {
-        if(checkIfForumTopicIsSelected()) {
+        if (checkIfForumTopicIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinkta forumo tema", "Prašome pasirinkti forumo temą iš sąrašo.");
             return;
         }
@@ -131,6 +148,47 @@ public class MainWindowDriver {
 
     private void fillForumList() {
         List<Forum> forums = forumService.getAllForums();
-        forums.forEach(f->listViewForum.getItems().add(f));
+        forums.forEach(f -> listViewForum.getItems().add(f));
+    }
+
+    private void fillProfileFields() {
+        fieldFirstname.setText(loggedInUser.getFirstname());
+        fieldLastname.setText(loggedInUser.getLastname());
+        fieldPassword.setText(loggedInUser.getPassword());
+        fieldEmail.setText(loggedInUser.getEmail());
+        fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
+        dateBirthday.setValue(loggedInUser.getBirthday());
+    }
+
+    private boolean myInfofieldsAreEmpty() {
+        if (fieldPassword.getText().isEmpty() || fieldFirstname.getText().isEmpty() || fieldLastname.getText().isEmpty() || fieldEmail.getText().isEmpty() || fieldPhone.getText().isEmpty()) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Prašome įvesti visus duomenis.");
+            return true;
+        }
+        if (!isNumeric(fieldPhone.getText()) || fieldPhone.getText().length() != 9) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Netinkamas telefono numerio formatas.");
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+    }
+    @FXML
+    public void saveMyInfo() {
+        if(myInfofieldsAreEmpty()) return;
+        updateMyInfo();
+        userService.updateUser(loggedInUser);
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas atnaujintas", "Jūsų duomenys buvo sėkmingai atnaujinti.");
+    }
+
+    private void updateMyInfo() {
+        loggedInUser.setPassword(fieldPassword.getText());
+        loggedInUser.setFirstname(fieldFirstname.getText());
+        loggedInUser.setLastname(fieldLastname.getText());
+        loggedInUser.setEmail(fieldEmail.getText());
+        loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
+        loggedInUser.setBirthday(dateBirthday.getValue());
     }
 }
