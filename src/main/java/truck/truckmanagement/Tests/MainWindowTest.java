@@ -16,6 +16,7 @@ import truck.truckmanagement.Model.User;
 import java.time.LocalDate;
 
 import static org.junit.Assert.*;
+import static truck.truckmanagement.Enum.Role_enum.VAIRUOTOJAS;
 
 public class MainWindowTest {
     MainWindowDriver mainWindowDriver;
@@ -79,4 +80,25 @@ public class MainWindowTest {
         //then
         assertFalse(mainWindowDriver.listViewForum.getSelectionModel().getSelectedItems().isEmpty());
     }
+
+    @Test
+    public void shouldReturnFalseIfFilledViewWithData(){
+        //Given
+        User loggedInUser = new User(VAIRUOTOJAS,"Vardas","Pass","Vardenis","Pavardenis","Elpastas@gmai.co",867898887,LocalDate.of(2000,12,22) );
+        mainWindowDriver.fieldFirstname.setText(loggedInUser.getFirstname());
+        mainWindowDriver.fieldLastname.setText(loggedInUser.getLastname());
+        mainWindowDriver.fieldPassword.setText(loggedInUser.getPassword());
+        mainWindowDriver.fieldEmail.setText(loggedInUser.getEmail());
+        mainWindowDriver.fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
+        mainWindowDriver.dateBirthday.setValue(loggedInUser.getBirthday());
+
+        //When
+
+
+        //Then
+        assertFalse(mainWindowDriver.fieldFirstname.getText().isEmpty() && mainWindowDriver.fieldLastname.getText().isEmpty() && mainWindowDriver.fieldPassword.getText().isEmpty() && mainWindowDriver.fieldEmail.getText().isEmpty() && mainWindowDriver.fieldPhone.getText().isEmpty() && mainWindowDriver.dateBirthday.equals(null) );
+
+    }
+
+
 }
