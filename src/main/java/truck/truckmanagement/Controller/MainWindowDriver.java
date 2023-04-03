@@ -63,8 +63,8 @@ public class MainWindowDriver {
 
     private void fillTripsList() {
         List<Destination> destinations = destinationService.getAllDestinationsByDriverId(loggedInUser.getId(), Destination_filters_enum.NONE, "");
-        for (Destination destination: destinations){
-            if(destination.getEndDate() == null){
+        for (Destination destination : destinations) {
+            if (destination.getEndDate() == null) {
                 listViewTrips.getItems().add(destination);
                 break;
             }
@@ -92,9 +92,10 @@ public class MainWindowDriver {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void viewTrip() {
-        if(checkIfTripIsSelected()) {
+        if (checkIfTripIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinktas reisas", "Prašome pasirinkti reisą iš sąrašo.");
             return;
         }
@@ -122,7 +123,7 @@ public class MainWindowDriver {
 
     @FXML
     public void readForumTopic() {
-        if(checkIfForumTopicIsSelected()) {
+        if (checkIfForumTopicIsSelected()) {
             alertMessage(Alert.AlertType.ERROR, "Klaida", "Nepasirinkta forumo tema", "Prašome pasirinkti forumo temą iš sąrašo.");
             return;
         }
@@ -147,8 +148,9 @@ public class MainWindowDriver {
 
     private void fillForumList() {
         List<Forum> forums = forumService.getAllForums();
-        forums.forEach(f->listViewForum.getItems().add(f));
+        forums.forEach(f -> listViewForum.getItems().add(f));
     }
+
     private void fillProfileFields() {
         fieldFirstname.setText(loggedInUser.getFirstname());
         fieldLastname.setText(loggedInUser.getLastname());
@@ -156,5 +158,26 @@ public class MainWindowDriver {
         fieldEmail.setText(loggedInUser.getEmail());
         fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
         dateBirthday.setValue(loggedInUser.getBirthday());
+    }
+
+    private boolean myInfofieldsAreEmpty() {
+        if (fieldPassword.getText().isEmpty() || fieldFirstname.getText().isEmpty() || fieldLastname.getText().isEmpty() || fieldEmail.getText().isEmpty() || fieldPhone.getText().isEmpty()) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Prašome įvesti visus duomenis.");
+            return true;
+        }
+        if (!isNumeric(fieldPhone.getText()) || fieldPhone.getText().length() != 9) {
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Netinkamas telefono numerio formatas.");
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+    }
+    @FXML
+    public void saveMyInfo() {
+        if(myInfofieldsAreEmpty()) return;
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas atnaujintas", "Jūsų duomenys buvo sėkmingai atnaujinti.");
     }
 }

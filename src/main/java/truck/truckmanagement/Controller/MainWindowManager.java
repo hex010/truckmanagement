@@ -601,4 +601,20 @@ public class MainWindowManager {
         fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
         dateBirthday.setValue(loggedInUser.getBirthday());
     }
+    private boolean myInfofieldsAreEmpty() {
+        if(fieldPassword.getText().isEmpty() || fieldFirstname.getText().isEmpty() || fieldLastname.getText().isEmpty() || fieldEmail.getText().isEmpty() || fieldPhone.getText().isEmpty()){
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Prašome įvesti visus duomenis.");
+            return true;
+        }
+        if(!isNumeric(fieldPhone.getText()) || fieldPhone.getText().length() != 9){
+            alertMessage(Alert.AlertType.ERROR, "Klaida", "Įvedimo klaida", "Netinkamas telefono numerio formatas.");
+            return true;
+        }
+        return false;
+    }
+    @FXML
+    public void saveMyInfo() {
+        if(myInfofieldsAreEmpty()) return;
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas atnaujintas", "Jūsų duomenys buvo sėkmingai atnaujinti.");
+    }
 }
