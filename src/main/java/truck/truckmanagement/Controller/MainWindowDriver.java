@@ -64,10 +64,15 @@ public class MainWindowDriver {
 
     private void fillTripsList() {
         List<Destination> destinations = destinationService.getAllDestinationsByDriverId(loggedInUser.getId(), Destination_filters_enum.NONE, "");
-        for (Destination destination : destinations) {
-            if (destination.getEndDate() == null) {
-                listViewTrips.getItems().add(destination);
-                break;
+        if(finishedTrips.isSelected()){
+            destinations.sort(Comparator.comparing(Destination::getEndDate,Comparator.nullsFirst(Comparator.naturalOrder())));
+            destinations.forEach(d->listViewTrips.getItems().add(d));
+        }else{
+            for (Destination destination: destinations){
+                if(destination.getEndDate() == null){
+                    listViewTrips.getItems().add(destination);
+                    break;
+                }
             }
         }
     }
@@ -193,6 +198,9 @@ public class MainWindowDriver {
         loggedInUser.setBirthday(dateBirthday.getValue());
     }
 
-    public void applyFilterOnTripsList(ActionEvent actionEvent) {
+    @FXML
+    public void applyFilterOnTripsList() {
+        listViewTrips.getItems().clear();
+        fillTripsList();
     }
 }
