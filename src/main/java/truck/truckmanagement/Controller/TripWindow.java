@@ -1,28 +1,31 @@
 package truck.truckmanagement.Controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import truck.truckmanagement.HelloApplication;
 import truck.truckmanagement.Model.Destination;
 import truck.truckmanagement.Model.TruckStop;
 import truck.truckmanagement.Model.User;
+import truck.truckmanagement.Service.DestinationService;
 import truck.truckmanagement.Service.TruckStopService;
-
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.util.List;
 
 import static truck.truckmanagement.Utils.FxUtils.alertMessage;
 
-public class TripWindow {
+import javax.persistence.Persistence;
+import java.time.LocalDate;
+
+public class TripWindow extends Parent {
     @FXML
     public Label countryField;
     @FXML
@@ -49,13 +52,18 @@ public class TripWindow {
     public Label mileageField;
     @FXML
     public Label colorField;
-    public ListView truckStopsListView;
+    @FXML
+    public Button finishTripButtonId;
     private User loggedInUser;
-    private Destination selectedDestination;
+    Destination selectedDestination;
+    DestinationService destinationService;
+    public ListView truckStopsListView;
     private TruckStopService truckStopService;
     private EntityManagerFactory entityManagerFactory;
 
     public void setData(Destination selectedItem, User loggedInUser) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
+        this.destinationService = new DestinationService(entityManagerFactory);
         this.loggedInUser = loggedInUser;
         this.selectedDestination = selectedItem;
         this.truckStopService = new TruckStopService(entityManagerFactory);
@@ -79,6 +87,9 @@ public class TripWindow {
         transmissionTypeField.setText(transmissionTypeField.getText() + " " + selectedDestination.getTransport().getTransmissionType());
         mileageField.setText(mileageField.getText() + " " + selectedDestination.getTransport().getMileage());
         colorField.setText(colorField.getText() + " " + selectedDestination.getTransport().getColor());
+
+        isShowButton(selectedDestination.getEndDate());
+
         fillStopsList();
     }
     @FXML
@@ -110,4 +121,29 @@ public class TripWindow {
         List<TruckStop> truckStops = truckStopService.getAllTruckStopsByDestinationId(selectedDestination.getId());
         truckStops.forEach(f->truckStopsListView.getItems().add(f));
     }
+
+    public void isShowButton(LocalDate localDate) {
+        if(localDate != null) finishTripButtonId.setVisible(false);
+    }
+
+    @FXML
+    public void finishTrip() {
+        updateDestinationEndDate();
+        showInformationAlert();
+        closeWindow();
+    }
+    void updateDestinationEndDate() {
+        selectedDestination.setEndDate(LocalDate.now());
+        destinationService.updateDestination(selectedDestination);
+    }
+
+    void showInformationAlert() {
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Reisas atnaujintas", "Reisas sėkmingai užbaigtas.");
+    }
+
+    void closeWindow() {
+        Stage stage = (Stage) finishTripButtonId.getScene().getWindow();
+        stage.close();
+    }
+
 }
