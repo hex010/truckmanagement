@@ -1,6 +1,7 @@
 package truck.truckmanagement.Tests;
 
 import javafx.application.Platform;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -84,13 +85,22 @@ public class MainWindowTest {
     @Test
     public void shouldReturnFalseIfFilledViewWithData(){
         //Given
+
         User loggedInUser = new User(VAIRUOTOJAS,"Vardas","Pass","Vardenis","Pavardenis","Elpastas@gmai.co",867898887,LocalDate.of(2000,12,22) );
+        mainWindowDriver.fieldFirstname= new TextField();
+        mainWindowDriver.fieldEmail= new TextField();
+        mainWindowDriver.fieldLastname= new TextField();
+        mainWindowDriver.fieldPhone= new TextField();
+        mainWindowDriver.dateBirthday= new DatePicker();
+        mainWindowDriver.fieldPassword= new TextField();
+
         mainWindowDriver.fieldFirstname.setText(loggedInUser.getFirstname());
         mainWindowDriver.fieldLastname.setText(loggedInUser.getLastname());
         mainWindowDriver.fieldPassword.setText(loggedInUser.getPassword());
         mainWindowDriver.fieldEmail.setText(loggedInUser.getEmail());
         mainWindowDriver.fieldPhone.setText(String.valueOf(loggedInUser.getPhoneNumber()));
         mainWindowDriver.dateBirthday.setValue(loggedInUser.getBirthday());
+
 
         //When
 
@@ -102,7 +112,14 @@ public class MainWindowTest {
 
     @Test
     public void shouldReturnTrueIfUserDataIsUpdated(){
-        User loggedInUser = new User(VAIRUOTOJAS,"Vardas","Pass","Vardenis","Pavardenis","Elpastas@gmai.co",867898887,LocalDate.of(2000,12,22) );
+        User loggedInUser = new User(VAIRUOTOJAS,"Vardas","Pass","Vardenis","Pavardenis","Elpastas@gmai.co",86789888,LocalDate.of(2000,12,22) );
+        mainWindowDriver.fieldFirstname= new TextField();
+        mainWindowDriver.fieldEmail= new TextField();
+        mainWindowDriver.fieldLastname= new TextField();
+        mainWindowDriver.fieldPhone= new TextField();
+        mainWindowDriver.fieldPassword= new TextField();
+        mainWindowDriver.dateBirthday= new DatePicker();
+
         mainWindowDriver.fieldFirstname.setText(loggedInUser.getFirstname()+"NEW");
         mainWindowDriver.fieldLastname.setText(loggedInUser.getLastname()+"NEW");
         mainWindowDriver.fieldPassword.setText(loggedInUser.getPassword()+"NEW");
@@ -117,12 +134,11 @@ public class MainWindowTest {
         loggedInUser.setPhoneNumber(Integer.parseInt(mainWindowDriver.fieldPhone.getText()));
         loggedInUser.setBirthday(mainWindowDriver.dateBirthday.getValue());
 
-        assertEquals("VardasNEW",loggedInUser.getFirstname());
-        assertEquals("VardenisNEW",loggedInUser.getLastname());
+        assertEquals("VardenisNEW",loggedInUser.getFirstname());
+        assertEquals("PavardenisNEW",loggedInUser.getLastname());
         assertEquals("PassNEW",loggedInUser.getPassword());
         assertEquals("Elpastas@gmai.coNEW",loggedInUser.getEmail());
-        assertEquals("8678988878",String.valueOf(loggedInUser.getPhoneNumber()));
+        assertEquals("867898888",String.valueOf(loggedInUser.getPhoneNumber()));
     }
-
 
 }
