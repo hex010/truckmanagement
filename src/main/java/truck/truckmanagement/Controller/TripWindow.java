@@ -1,15 +1,23 @@
 package truck.truckmanagement.Controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import org.junit.Test;
 import truck.truckmanagement.Model.Destination;
 import truck.truckmanagement.Model.User;
 import truck.truckmanagement.Service.DestinationService;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.time.LocalDate;
 
-public class TripWindow {
+import static truck.truckmanagement.Utils.FxUtils.alertMessage;
+
+public class TripWindow extends Parent {
     @FXML
     public Label countryField;
     @FXML
@@ -39,9 +47,11 @@ public class TripWindow {
     @FXML
     public Button finishTripButtonId;
     private User loggedInUser;
-    private Destination selectedDestination;
-    private DestinationService destinationService;
+    Destination selectedDestination;
+    DestinationService destinationService;
     public void setData(Destination selectedItem, User loggedInUser) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TruckManagement");
+        this.destinationService = new DestinationService(entityManagerFactory);
         this.loggedInUser = loggedInUser;
         this.selectedDestination = selectedItem;
 
@@ -73,5 +83,23 @@ public class TripWindow {
     }
 
     @FXML
-    public void finishTrip() {}
+    public void finishTrip() {
+        updateDestinationEndDate();
+        showInformationAlert();
+        closeWindow();
+    }
+    void updateDestinationEndDate() {
+        selectedDestination.setEndDate(LocalDate.now());
+        destinationService.updateDestination(selectedDestination);
+    }
+
+    void showInformationAlert() {
+        alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Reisas atnaujintas", "Reisas sėkmingai užbaigtas.");
+    }
+
+    void closeWindow() {
+        Stage stage = (Stage) finishTripButtonId.getScene().getWindow();
+        stage.close();
+    }
+
 }
