@@ -127,5 +127,26 @@
               </AnchorPane>
           </content>
       </Tab>
+      <Tab text="Mano profilis">
+          <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                      <TextField fx:id="fieldFirstname" layoutX="14.0" layoutY="32.0" />
+                      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas" />
+                      <TextField fx:id="fieldLastname" layoutX="14.0" layoutY="82.0" />
+                      <Text layoutX="14.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pavardė" />
+                      <TextField fx:id="fieldEmail" layoutX="203.0" layoutY="32.0" />
+                      <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Paštas" />
+                      <TextField fx:id="fieldPassword" layoutX="203.0" layoutY="82.0" />
+                      <Text layoutX="203.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Slaptažodis" />
+                      <TextField fx:id="fieldPhone" layoutX="203.0" layoutY="134.0" />
+                      <Text layoutX="203.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefono numeris" />
+                      <DatePicker fx:id="dateBirthday" layoutX="14.0" layoutY="134.0" prefHeight="26.0" prefWidth="150.0" />
+                      <Text layoutX="14.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gimimo data" />
+                      <Button layoutX="14.0" layoutY="175.0" mnemonicParsing="false" onAction="#saveMyInfo" prefHeight="34.0" prefWidth="68.0" text="Išsaugoti" />
+                  </children>
+              </AnchorPane>
+          </content>
+      </Tab>
   </tabs>
 </TabPane>
