@@ -602,6 +602,16 @@ public class MainWindowAdmin {
     @FXML
     public void saveMyInfo() {
         if(myInfofieldsAreEmpty()) return;
+        updateMyInfo();
+        userService.updateUser(loggedInUser);
         alertMessage(Alert.AlertType.INFORMATION, "Pavyko", "Vartotojas atnaujintas", "Jūsų duomenys buvo sėkmingai atnaujinti.");
+    }
+    private void updateMyInfo() {
+        loggedInUser.setPassword(fieldPassword.getText());
+        loggedInUser.setFirstname(fieldFirstname.getText());
+        loggedInUser.setLastname(fieldLastname.getText());
+        loggedInUser.setEmail(fieldEmail.getText());
+        loggedInUser.setPhoneNumber(Integer.parseInt(fieldPhone.getText()));
+        loggedInUser.setBirthday(dateBirthday.getValue());
     }
 }
