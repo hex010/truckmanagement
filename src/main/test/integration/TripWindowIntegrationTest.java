@@ -1,6 +1,7 @@
 package integration;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.*;
@@ -8,8 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.util.WaitForAsyncUtils;
 import truck.truckmanagement.HelloApplication;
 
 import java.time.Duration;
@@ -17,14 +20,17 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 @ExtendWith(ApplicationExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TripWindowIntegrationTest{
+class TripWindowIntegrationTest extends ApplicationTest {
 
     @BeforeEach
     void setUp() throws Exception {
         // Code in this method will be executed before each test method.
+
     }
 
     @Start
@@ -34,6 +40,7 @@ class TripWindowIntegrationTest{
     }
 
     @Test
+    @Order(1)
     public void loginUser(FxRobot robot) {
         // Type username and password
         robot.clickOn("#loginTextField");
@@ -54,6 +61,61 @@ class TripWindowIntegrationTest{
         FxAssert.verifyThat("#listViewTrips", NodeMatchers.isVisible());
 
         robot.lookup("#listViewTrips").queryAs(ListView.class);
+    }
+
+    @Test
+    @Order(2)
+    public void testReviewRoute(FxRobot robot) {
+        loginUser(robot);
+
+        WaitForAsyncUtils.sleep(5000, TimeUnit.MILLISECONDS);
+
+        //best to use fx id instead of text value
+        robot.clickOn("#Reisai");
+
+        Node firstCell = lookup("#listViewTrips .list-cell").queryAll().stream()
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No cell found in the ListView"));
+
+        robot.clickOn(firstCell);
+
+        robot.clickOn("#viewTripButton");
+
+        WaitForAsyncUtils.sleep(5000, TimeUnit.MILLISECONDS);
+
+        FxAssert.verifyThat("#tripViewWindow", NodeMatchers.isVisible());
+    }
+
+    @Test
+    @Order(3)
+    void testFinishedTrip(FxRobot robot) {
+
+        loginUser(robot);
+
+        WaitForAsyncUtils.sleep(5000, TimeUnit.MILLISECONDS);
+
+        //best to use fx id instead of text value
+        robot.clickOn("#Reisai");
+
+        Node firstCell = lookup("#listViewTrips .list-cell").queryAll().stream()
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No cell found in the ListView"));
+
+        robot.clickOn(firstCell);
+
+        robot.clickOn("#viewTripButton");
+
+        WaitForAsyncUtils.sleep(5000, TimeUnit.MILLISECONDS);
+
+        robot.clickOn("#finishTripButtonId");
+
+        waitForCondition(Duration.ofSeconds(5), () -> robot.lookup(".alert").tryQuery().isPresent());
+
+        robot.clickOn("OK");
+
+        WaitForAsyncUtils.sleep(5000, TimeUnit.MILLISECONDS);
+
+        assertThat("The first cell should not be visible after removal", !firstCell.isVisible());
     }
 
     private void waitForCondition(Duration duration, BooleanSupplier condition) {
