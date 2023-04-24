@@ -1,0 +1,22 @@
+name: CI of develop branch
+
+on:
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java 19
+        uses: actions/setup-java@v2
+        with:
+          java-version: 19
+          distribution: adopt
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Run tests
+        run: mvn test
