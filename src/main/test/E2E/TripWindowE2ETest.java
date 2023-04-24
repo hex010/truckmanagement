@@ -1,4 +1,4 @@
-package integration;
+package E2E;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtendWith(ApplicationExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TripWindowIntegrationTest extends ApplicationTest {
+class TripWindowE2ETest extends ApplicationTest {
 
     @BeforeEach
     void setUp() throws Exception {
