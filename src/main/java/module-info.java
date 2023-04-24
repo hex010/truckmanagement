@@ -8,6 +8,7 @@ module truck.truckmanagement {
     requires org.hibernate.orm.core;
     requires java.naming;
     requires junit;
+    requires javafx.graphics;
 
     opens truck.truckmanagement to javafx.fxml;
     exports truck.truckmanagement;
