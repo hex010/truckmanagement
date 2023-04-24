@@ -1,16 +1,12 @@
-package truck.truckmanagement.Tests;
+package truck.truckmanagement.Controller;
 
 import javafx.application.Platform;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import truck.truckmanagement.Controller.ForumWindow;
-import truck.truckmanagement.Controller.MainWindowDriver;
-import truck.truckmanagement.Enum.Role_enum;
 import truck.truckmanagement.Model.Forum;
 import truck.truckmanagement.Model.User;
 

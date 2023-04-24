@@ -1,4 +1,4 @@
-package truck.truckmanagement.Tests;
+package truck.truckmanagement.Controller;
 
 import javafx.application.Platform;
 import javafx.scene.control.*;
