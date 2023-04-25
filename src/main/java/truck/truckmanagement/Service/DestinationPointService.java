@@ -49,6 +49,11 @@ public class DestinationPointService {
     }
 
     public void createDestinationPoint(DestinationPoint selectedDestinationPoint) {
+
+        if (selectedDestinationPoint == null) {
+            throw new IllegalArgumentException("DestinationPoint cannot be null");
+        }
+
         entityManager = emf.createEntityManager();
         try {
             entityManager.getTransaction().begin();
