@@ -5,10 +5,6 @@ on:
     branches:
       - 'develop'
 
-env:
-  JDBC_USER: root
-  JDBC_PASSWORD: "slaptazodis"
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -17,12 +13,14 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: "slaptazodis"
-          MYSQL_DATABASE: TruckManagement
+          MYSQL_ROOT_PASSWORD: somepass
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java 19
@@ -30,20 +28,7 @@ jobs:
         with:
           java-version: 19
           distribution: adopt
-      - name: Update persistence.xml
-        run: |
-          sed -i "s|<property name=\"javax.persistence.jdbc.user\" value=\"root\"/>|<property name=\"javax.persistence.jdbc.user\" value=\"\${JDBC_USER}\"/>|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|<property name=\"javax.persistence.jdbc.password\" value=\"\"/>|<property name=\"javax.persistence.jdbc.password\" value=\"\${JDBC_PASSWORD}\"/>|g" src/main/resources/META-INF/persistence.xml
-      - name: Print modified file
-        run: cat src/main/resources/META-INF/persistence.xml
-      - name: Print MySQL service version
-        run: echo "SELECT version();" | mysql --host=127.0.0.1 --user=root --password="${JDBC_PASSWORD}"
-      - name: Build and Test with Maven
-        run: xvfb-run mvn -B verify --file pom.xml
-        env:
-          JDBC_URL: jdbc:mysql://127.0.0.1:3306/TruckManagement?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8
-          JDBC_USER: root
-          JDBC_PASSWORD: "slaptazodis"
-          JDBC_DRIVER: com.mysql.cj.jdbc.Driver
+      - name: Build with Maven
+        run: xvfb-run mvn -B package --file pom.xml
       - name: Run tests
         run: mvn test
