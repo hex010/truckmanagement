@@ -13,12 +13,12 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_ROOT_PASSWORD: "slaptazodis"
           MYSQL_DATABASE: TruckManagement
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+        
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java 19
@@ -28,10 +28,17 @@ jobs:
           distribution: adopt
       - name: Update persistence.xml
         run: |
-          sed -i "s|javax.persistence.jdbc.user.*|javax.persistence.jdbc.user=root|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|javax.persistence.jdbc.password.*|javax.persistence.jdbc.password=my_password|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>|<property name=\"hibernate.hbm2ddl.auto\" value=\"create-drop\"/></properties>|g" src/main/resources/META-INF/persistence.xml
-      - name: Build with Maven
-        run: xvfb-run mvn -B package --file pom.xml
+          sed -i "s|javax.persistence.jdbc.url.*|javax.persistence.jdbc.url=\${JDBC_URL}|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|javax.persistence.jdbc.user.*|javax.persistence.jdbc.user=\${JDBC_USER}|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|javax.persistence.jdbc.password.*|javax.persistence.jdbc.password=\${JDBC_PASSWORD}|g" src/main/resources/META-INF/persistence.xml
+      - name: Build and Test with Maven
+        run: xvfb-run mvn -B verify --file pom.xml
+        env:
+          JDBC_URL: jdbc:mysql://mysql:3306/TruckManagement?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8
+          JDBC_USER: root
+          JDBC_PASSWORD: "slaptazodis"
+          JDBC_DRIVER: com.mysql.cj.jdbc.Driver
+      - name: Print MySQL service version
+        run: echo "SELECT version();" | mysql --host=mysql --user=root --password="slaptazodis" TruckManagement
       - name: Run tests
         run: mvn test
