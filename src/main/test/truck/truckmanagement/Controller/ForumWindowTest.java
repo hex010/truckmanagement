@@ -29,11 +29,6 @@ public class ForumWindowTest extends JavaFXTestManage {
         currentUser.setId(8);
     }
 
-    @AfterClass
-    public static void tearDownClass() {
-        Platform.exit();
-    }
-
     @Test
     public void shouldReturnTrueIfOneOfTheFieldsIsEmpty() throws InterruptedException {
         //given
