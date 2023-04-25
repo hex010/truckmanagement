@@ -14,9 +14,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root_password
-          MYSQL_DATABASE: test_database
-          MYSQL_USER: test_user
-          MYSQL_PASSWORD: test_password
+          MYSQL_DATABASE: TruckManagement
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -28,6 +26,11 @@ jobs:
         with:
           java-version: 19
           distribution: adopt
+      - name: Update persistence.xml
+        run: |
+          sed -i "s|javax.persistence.jdbc.user.*|javax.persistence.jdbc.user=root|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|javax.persistence.jdbc.password.*|javax.persistence.jdbc.password=my_password|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|<property name=\"hibernate.hbm2ddl.auto\" value=\"update\"/>|<property name=\"hibernate.hbm2ddl.auto\" value=\"create-drop\"/></properties>|g" src/main/resources/META-INF/persistence.xml
       - name: Build with Maven
         run: xvfb-run mvn -B package --file pom.xml
       - name: Run tests
