@@ -45,7 +45,7 @@
               </AnchorPane>
           </content>
       </Tab>
-      <Tab text="Mano profilis">
+      <Tab fx:id="profileTabId" text="Mano profilis">
           <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -61,7 +61,7 @@
                       <Text layoutX="203.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefono numeris" />
                       <DatePicker fx:id="dateBirthday" layoutX="14.0" layoutY="134.0" prefHeight="26.0" prefWidth="150.0" />
                       <Text layoutX="14.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gimimo data" />
-                      <Button layoutX="14.0" layoutY="175.0" mnemonicParsing="false" onAction="#saveMyInfo" prefHeight="34.0" prefWidth="68.0" text="Išsaugoti" />
+                      <Button fx:id="saveMyInfoButtonId" layoutX="14.0" layoutY="175.0" mnemonicParsing="false" onAction="#saveMyInfo" prefHeight="34.0" prefWidth="68.0" text="Išsaugoti" />
                   </children>
               </AnchorPane>
           </content>
