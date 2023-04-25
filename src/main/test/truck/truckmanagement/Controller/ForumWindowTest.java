@@ -2,6 +2,7 @@ package truck.truckmanagement.Controller;
 
 import javafx.application.Platform;
 import javafx.scene.control.*;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,11 +28,17 @@ public class ForumWindowTest {
             // Inicijuoja JavaFX toolkit
         });
     }
+
     @Before
     public void setUp() {
         forumWindow = new ForumWindow();
         currentUser = new User(Role_enum.VAIRUOTOJAS, "Adsf", "sdag", "aersdf", "fgadf", "fagdfh", 864826498, LocalDate.now());
         currentUser.setId(8);
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        Platform.exit();
     }
 
     @Test

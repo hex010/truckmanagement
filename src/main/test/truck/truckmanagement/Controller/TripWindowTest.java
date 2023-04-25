@@ -43,6 +43,12 @@ public class TripWindowTest {
             stage.show();
         });
     }
+
+    @AfterClass
+    public static void tearDownClass() {
+        Platform.exit();
+    }
+
     @Test
     public void testIsShowButtonWhenEndDateIsNotNull() {
         tripWindow.isShowButton(LocalDate.now());

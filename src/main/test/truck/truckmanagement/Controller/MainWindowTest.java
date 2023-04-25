@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,15 +18,22 @@ import static truck.truckmanagement.Enum.Role_enum.VAIRUOTOJAS;
 
 public class MainWindowTest {
     MainWindowDriver mainWindowDriver;
+
     @BeforeClass
     public static void initToolkit() {
         Platform.startup(() -> {
             // Inicijuoja JavaFX toolkit
         });
     }
+
     @Before
     public void setUp() {
         mainWindowDriver = new MainWindowDriver();
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+        Platform.exit();
     }
 
     @Test
