@@ -5,6 +5,10 @@ on:
     branches:
       - 'develop'
 
+env:
+  JDBC_USER: root
+  JDBC_PASSWORD: "slaptazodis"
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -28,19 +32,18 @@ jobs:
           distribution: adopt
       - name: Update persistence.xml
         run: |
-          sed -i "s|javax.persistence.jdbc.url.*|javax.persistence.jdbc.url=\${JDBC_URL}|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|javax.persistence.jdbc.user.*|javax.persistence.jdbc.user=\${JDBC_USER}|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|javax.persistence.jdbc.password.*|javax.persistence.jdbc.password=\${JDBC_PASSWORD}|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|<property name=\"javax.persistence.jdbc.user\" value=\"root\"/>|<property name=\"javax.persistence.jdbc.user\" value=\"\${JDBC_USER}\"/>|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|<property name=\"javax.persistence.jdbc.password\" value=\"\"/>|<property name=\"javax.persistence.jdbc.password\" value=\"\${JDBC_PASSWORD}\"/>|g" src/main/resources/META-INF/persistence.xml
       - name: Print modified file
         run: cat src/main/resources/META-INF/persistence.xml
+      - name: Print MySQL service version
+        run: echo "SELECT version();" | mysql --host=127.0.0.1 --user=root --password="${JDBC_PASSWORD}"
       - name: Build and Test with Maven
         run: xvfb-run mvn -B verify --file pom.xml
         env:
-          JDBC_URL: jdbc:mysql://mysql:3306/TruckManagement?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8
+          JDBC_URL: jdbc:mysql://127.0.0.1:3306/TruckManagement?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8
           JDBC_USER: root
           JDBC_PASSWORD: "slaptazodis"
           JDBC_DRIVER: com.mysql.cj.jdbc.Driver
-      - name: Print MySQL service version
-        run: echo "SELECT version();" | mysql --host=mysql --user=root --password="slaptazodis" TruckManagement
       - name: Run tests
         run: mvn test
