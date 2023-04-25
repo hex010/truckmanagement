@@ -28,9 +28,8 @@ jobs:
           distribution: adopt
       - name: Update persistence.xml
         run: |
-          sed -i "s|javax.persistence.jdbc.url.*|javax.persistence.jdbc.url=\${JDBC_URL}|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|javax.persistence.jdbc.user.*|javax.persistence.jdbc.user=\${JDBC_USER}|g" src/main/resources/META-INF/persistence.xml
-          sed -i "s|javax.persistence.jdbc.password.*|javax.persistence.jdbc.password=\${JDBC_PASSWORD}|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|<property name=\"javax.persistence.jdbc.user\" value=\"root\"/>|<property name=\"javax.persistence.jdbc.user\" value=\"\${JDBC_USER}\"/>|g" src/main/resources/META-INF/persistence.xml
+          sed -i "s|<property name=\"javax.persistence.jdbc.password\" value=\"\"/>|<property name=\"javax.persistence.jdbc.password\" value=\"\${JDBC_PASSWORD}\"/>|g" src/main/resources/META-INF/persistence.xml
       - name: Print modified file
         run: cat src/main/resources/META-INF/persistence.xml
       - name: Build and Test with Maven
