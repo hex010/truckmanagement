@@ -17,7 +17,7 @@ public class JavaFXTestManage {
 
     @AfterClass
     public static void tearDownClass() {
-        Platform.exit();
+        //Platform.exit();
         initialized = false;
     }
 }
