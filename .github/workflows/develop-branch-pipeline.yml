@@ -31,6 +31,8 @@ jobs:
           sed -i "s|javax.persistence.jdbc.url.*|javax.persistence.jdbc.url=\${JDBC_URL}|g" src/main/resources/META-INF/persistence.xml
           sed -i "s|javax.persistence.jdbc.user.*|javax.persistence.jdbc.user=\${JDBC_USER}|g" src/main/resources/META-INF/persistence.xml
           sed -i "s|javax.persistence.jdbc.password.*|javax.persistence.jdbc.password=\${JDBC_PASSWORD}|g" src/main/resources/META-INF/persistence.xml
+      - name: Print modified file
+        run: cat src/main/resources/META-INF/persistence.xml
       - name: Build and Test with Maven
         run: xvfb-run mvn -B verify --file pom.xml
         env:
