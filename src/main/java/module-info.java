@@ -14,6 +14,7 @@ module truck.truckmanagement {
     exports truck.truckmanagement;
     opens truck.truckmanagement.Controller;
     exports truck.truckmanagement.Controller;
+    exports truck.truckmanagement.Service;
 
     opens truck.truckmanagement.Model to org.hibernate.orm.core;
 

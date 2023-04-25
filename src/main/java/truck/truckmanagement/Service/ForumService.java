@@ -35,6 +35,19 @@ public class ForumService {
         return new ArrayList<>();
     }
 
+    public Forum getForumTopicById(int id) {
+        entityManager = emf.createEntityManager();
+        Forum forum = null;
+        try {
+            entityManager.getTransaction().begin();
+            forum = entityManager.find(Forum.class, id);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("No such Forum by given Id");
+        }
+        return forum;
+    }
+
     public void updateForumTopic(Forum forum) {
         entityManager = emf.createEntityManager();
         try {
