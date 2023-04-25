@@ -18,16 +18,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ForumWindowTest {
+public class ForumWindowTest extends JavaFXTestManage {
     ForumWindow forumWindow;
     User currentUser;
-
-    @BeforeClass
-    public static void initToolkit() {
-        Platform.startup(() -> {
-            // Inicijuoja JavaFX toolkit
-        });
-    }
 
     @Before
     public void setUp() {

@@ -18,18 +18,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
-public class TripWindowTest {
+public class TripWindowTest extends JavaFXTestManage{
 
     private TripWindow tripWindow;
     private Stage stage;
     @Mock
     private DestinationService destinationService;
-
-    @BeforeClass
-    public static void setUpClass() {
-        // initialize JavaFX toolkit
-        Platform.startup(() -> {});
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -42,11 +36,6 @@ public class TripWindowTest {
             stage.setScene(scene);
             stage.show();
         });
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-        Platform.exit();
     }
 
     @Test

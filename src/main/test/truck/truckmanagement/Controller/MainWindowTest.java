@@ -16,24 +16,12 @@ import java.time.LocalDate;
 import static org.junit.Assert.*;
 import static truck.truckmanagement.Enum.Role_enum.VAIRUOTOJAS;
 
-public class MainWindowTest {
+public class MainWindowTest extends JavaFXTestManage {
     MainWindowDriver mainWindowDriver;
-
-    @BeforeClass
-    public static void initToolkit() {
-        Platform.startup(() -> {
-            // Inicijuoja JavaFX toolkit
-        });
-    }
 
     @Before
     public void setUp() {
         mainWindowDriver = new MainWindowDriver();
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-        Platform.exit();
     }
 
     @Test
