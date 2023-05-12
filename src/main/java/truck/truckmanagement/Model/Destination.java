@@ -27,6 +27,8 @@ public class Destination {
     private User driver;
     @ManyToOne
     private User manager;
+    @OneToMany (mappedBy = "destination")
+    private List<TruckStop> truckStops;
 
     public Destination(LocalDate startDate, DestinationPoint destinationPoint, Transport transport, Freight freight, User driver, User manager) {
         this.startDate = startDate;

@@ -1,6 +1,6 @@
 package truck.truckmanagement.Service;
 
-import truck.truckmanagement.Model.DestinationPoint;
+import truck.truckmanagement.Model.Forum;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,20 +9,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DestinationPointService {
+public class ForumService {
     EntityManager entityManager = null;
     EntityManagerFactory emf = null;
 
-    public DestinationPointService(EntityManagerFactory emf) {
+    public ForumService(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public List<DestinationPoint> getAllDestinationPoints() {
+    public List<Forum> getAllForums() {
         entityManager = emf.createEntityManager();
 
         try {
             CriteriaQuery<Object> query = entityManager.getCriteriaBuilder().createQuery();
-            query.select(query.from(DestinationPoint.class));
+            query.select(query.from(Forum.class));
             Query q = entityManager.createQuery(query);
             return q.getResultList();
         } catch (Exception e){
@@ -35,11 +35,24 @@ public class DestinationPointService {
         return new ArrayList<>();
     }
 
-    public void updateDestinationPoint(DestinationPoint selectedDestinationPoint) {
+    public Forum getForumTopicById(int id) {
+        entityManager = emf.createEntityManager();
+        Forum forum = null;
+        try {
+            entityManager.getTransaction().begin();
+            forum = entityManager.find(Forum.class, id);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("No such Forum by given Id");
+        }
+        return forum;
+    }
+
+    public void updateForumTopic(Forum forum) {
         entityManager = emf.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(selectedDestinationPoint);
+            entityManager.merge(forum);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,16 +61,11 @@ public class DestinationPointService {
         }
     }
 
-    public void createDestinationPoint(DestinationPoint selectedDestinationPoint) {
-
-        if (selectedDestinationPoint == null) {
-            throw new IllegalArgumentException("DestinationPoint cannot be null");
-        }
-
+    public void createForumTopic(Forum forum) {
         entityManager = emf.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(selectedDestinationPoint);
+            entityManager.persist(forum);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,12 +74,12 @@ public class DestinationPointService {
         }
     }
 
-    public void removeDestinationPoint(DestinationPoint destinationPoint) {
+    public void removeForumTopic(Forum forum) {
         entityManager = emf.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-            Query query = entityManager.createQuery("Delete from DestinationPoint c where c.id = :id");
-            query.setParameter("id", destinationPoint.getId());
+            Query query = entityManager.createQuery("Delete from Forum c where c.id = :id");
+            query.setParameter("id", forum.getId());
             int rows = query.executeUpdate();
             entityManager.getTransaction().commit();
         } catch (Exception e) {
